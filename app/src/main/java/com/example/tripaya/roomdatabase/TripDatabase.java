@@ -16,7 +16,6 @@ public abstract class TripDatabase extends RoomDatabase {
     // create singleton class for database
     // so that i can't create multiple instance of this class
     private static TripDatabase instance;
-
     // to connect roomDatabase with dao
     public abstract TripDao tripDao();
 
@@ -38,7 +37,6 @@ public abstract class TripDatabase extends RoomDatabase {
     // set initial data in database
     // onCreate call in first time user install the app in his device and the database created
     // onOpen call every time user use app
-
     private static RoomDatabase.Callback callback = new RoomDatabase.Callback(){
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {

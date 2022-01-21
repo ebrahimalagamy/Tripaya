@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tripaya.AddTripActivity;
 import com.example.tripaya.R;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.TripViewModel;
 
 import java.util.List;
-
 
 public class UpcomingFragment extends Fragment {
     private RecyclerView recyclerViewTrip;
@@ -62,13 +62,10 @@ public class UpcomingFragment extends Fragment {
 
         tripViewModel = new ViewModelProvider(getActivity()).get(TripViewModel.class);
         // this method observe the data if any thing change
-        tripViewModel.getAllTrips().observe(getActivity(), new Observer<List<TripClass>>() {
-            @Override
-            public void onChanged(List<TripClass> tripClasses) {
-                // onChanged is called when the activity on the foreground
-                //update recycler view
-                tripAdapter.setTrips(tripClasses);
-            }
+        tripViewModel.getAllTrips().observe(getActivity(), tripClasses -> {
+            // onChanged is called when the activity on the foreground
+            //update recycler view
+            tripAdapter.setTrips(tripClasses);
         });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -88,12 +85,18 @@ public class UpcomingFragment extends Fragment {
 
             }
         }).attachToRecyclerView(recyclerViewTrip);
-        tripAdapter.serOnItemClickListener(new TripAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(TripClass tripClass) {
 
+        tripAdapter.serOnItemClickListener(tripClass -> {
+            Intent intent = new Intent(getActivity(), AddTripActivity.class);
+            intent.putExtra(AddTripActivity.ID,tripClass.getId());
+            intent.putExtra(AddTripActivity.NAME,tripClass.getTripName());
+            intent.putExtra(AddTripActivity.START,tripClass.getStartPoint());
+            intent.putExtra(AddTripActivity.END,tripClass.getEndPoint());
+            intent.putExtra(AddTripActivity.DATE,tripClass.getDate());
+            intent.putExtra(AddTripActivity.TIME,tripClass.getTime());
+            intent.putExtra(AddTripActivity.TYPE,tripClass.getTripType());
+            startActivity(intent);
 
-            }
         });
     }
 
@@ -103,7 +106,6 @@ public class UpcomingFragment extends Fragment {
         menuInflater.inflate(R.menu.upcoming_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
