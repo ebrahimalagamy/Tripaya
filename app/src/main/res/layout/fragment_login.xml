@@ -74,7 +74,7 @@
         android:id="@+id/resetPwId"
         android:layout_width="320dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="260dp"
+        android:layout_marginBottom="220dp"
         android:background="@drawable/button_round"
         android:text="@string/main_log"
         android:textAllCaps="false"
@@ -84,17 +84,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordId"
-        app:layout_constraintVertical_bias="0.455" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordId" />
 
     <TextView
         android:id="@+id/forgotPassId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/for_pw"
-        android:textSize="15sp"
         android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/resetPwId"
         app:layout_constraintEnd_toEndOf="@+id/passwordId"
         app:layout_constraintTop_toBottomOf="@+id/passwordId" />
 
