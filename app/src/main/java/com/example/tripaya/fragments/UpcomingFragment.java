@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tripaya.MainActivity;
 import com.example.tripaya.R;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.roomdatabase.TripClass;
@@ -32,6 +33,9 @@ public class UpcomingFragment extends Fragment {
     //create object of viewModel
     private TripViewModel tripViewModel;
     View view;
+    MainActivity m;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

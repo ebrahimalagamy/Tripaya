@@ -10,4 +10,36 @@
 
     <string name="string_tv_trip_type">Trip Type</string>
     <string name="delete_all_trips">Delete all trips</string>
+
+    <!-- authentication strings -->
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="user_email">Email</string>
+    <string name="user_pass">Password</string>
+    <string name="username_hint">Username</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="con_pass">Confirm Password</string>
+    <string name="reg_btn">Register</string>
+    <string name="have_acc">Already have an account?</string>
+    <string name="main_log">Sign In</string>
+    <string name="main_reg">Register</string>
+    <string name="thisis_home">This is home fragment</string>
+    <string name="for_pw">Forgot Password?</string>
+    <string name="welcom_msg">Welcome Back !</string>
+    <string name="tvSignUp">Don\'t have an account? Sign up</string>
+    <string name="forgot_pw">Forgot Password !</string>
+    <string name="np">No Problem.</string>
+    <string name="reset_pw">Reset Password</string>
+    <string name="back_btn">Back To Login</string>
+    <string name="facebook_app_id">645629160110351</string>
+    <string name="fb_login_protocol_scheme">fb645629160110351</string>
 </resources>
