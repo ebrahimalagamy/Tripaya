@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imageButtonHistory, imageButtonProfile;
     private int place_word, place_exam;
     private NavController navController;
-    RelativeLayout coordinatorLayout;
+    public RelativeLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,5 +135,6 @@ public class MainActivity extends AppCompatActivity {
         imageButtonHistory = findViewById(R.id.image_button_history);
         imageButtonProfile = findViewById(R.id.image_button_profile);
         coordinatorLayout= findViewById(R.id.gone);
+
     }
 }
