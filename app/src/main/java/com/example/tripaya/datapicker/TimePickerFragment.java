@@ -1,6 +1,5 @@
-package com.example.tripaya.date;
+package com.example.tripaya.datapicker;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;

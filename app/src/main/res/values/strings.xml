@@ -4,4 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="string_tv_date">Date</string>
     <string name="string_tv_time">Time</string>
+    <string name="string_add_notes">+ Notes</string>
+    <string name="string_add_trip">Add</string>
+    <string name="string_trip_name">Trip Name</string>
+
+    <string name="string_tv_trip_type">Trip Type</string>
+    <string name="delete_all_trips">Delete all trips</string>
 </resources>

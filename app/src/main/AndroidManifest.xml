@@ -11,9 +11,11 @@
         android:theme="@style/Theme.Tripaya" >
         <activity
             android:name=".AddTripActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
         <activity
             android:name=".activities.Splash"

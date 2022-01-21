@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+        // TODO will fix the image transaction
         imageButtonProfile.setOnClickListener(v -> {
             if (place_exam == 1) {
                 place_exam = 0;

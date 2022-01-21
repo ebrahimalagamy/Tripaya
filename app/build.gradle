@@ -48,8 +48,19 @@ dependencies {
     // lottie animation implementation
     implementation "com.airbnb.android:lottie:3.4.0"
     implementation 'com.daimajia.easing:library:2.1@aar'
-
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
+    // implement map places api
+    implementation 'com.google.android.libraries.places:places:2.5.0'
+
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata:2.4.0")
+    // Annotation processor
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.4.0")
+
+    //Room database
+    implementation("androidx.room:room-runtime:2.4.1")
+    annotationProcessor("androidx.room:room-compiler:2.4.1")
 
 
 

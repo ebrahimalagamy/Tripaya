@@ -9,9 +9,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -23,19 +26,14 @@
                 android:hint="Trip Name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-
-                >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
 
-                    android:id="@+id/textInputEditTest"
+                    android:id="@+id/et_trip_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text_design"
-
-
-                    />
+                    android:background="@drawable/edit_text_design" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -53,6 +51,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_start_point"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -74,6 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_end_point"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_design" />
@@ -92,12 +92,12 @@
                 tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
             <ImageButton
-                android:scaleType="fitXY"
                 android:id="@+id/image_button_time"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
                 android:background="@null"
+                android:scaleType="fitXY"
                 app:layout_constraintStart_toStartOf="@+id/image_button_calender"
                 app:layout_constraintTop_toBottomOf="@+id/image_button_calender"
                 app:srcCompat="@drawable/time" />
@@ -126,56 +126,48 @@
                 app:layout_constraintVertical_bias="0.476" />
 
             <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
+                android:id="@+id/btn_add_trip"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Button"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/string_add_trip"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button2"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tvAddNotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="+ Notes"
+                android:text="@string/string_add_notes"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button"
+                app:layout_constraintBottom_toTopOf="@+id/btn_add_trip"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/radio_group" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:checkedButton="@+id/radio_button_one_way"
                 app:layout_constraintStart_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/textView6">
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/radio_button_one_way"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="One Way" />
 
                 <RadioButton
-                    android:id="@+id/radioButton"
+                    android:id="@+id/radio_button_round_trip"
                     android:layout_width="match_parent"
+                    android:checked="false"
                     android:layout_height="wrap_content"
                     android:text="Round Trip" />
             </RadioGroup>
@@ -192,7 +184,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
