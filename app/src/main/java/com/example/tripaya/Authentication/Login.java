@@ -1,6 +1,7 @@
 package com.example.tripaya.Authentication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.navigation.Navigation;
 
 import com.example.tripaya.MainActivity;
 import com.example.tripaya.R;
+import com.example.tripaya.viewmodel.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -105,7 +107,8 @@ public class Login extends Fragment {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         progressDialog.dismiss();
-                        Navigation.findNavController(getView()).navigate(R.id.login_to_upcomingFragment);
+                        Intent intent = new Intent(getContext(),MainActivity.class);
+                        startActivity(intent);
                         Toast.makeText(getContext(), "Logged in Successfully", Toast.LENGTH_SHORT).show();
                     }
                     else{
