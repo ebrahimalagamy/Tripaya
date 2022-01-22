@@ -55,6 +55,9 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     public static final String DATE = "com.example.tripaya.date";
     public static final String TIME = "com.example.tripaya.time";
     public static final String TYPE = "com.example.tripaya.type";
+
+    String tripType;
+
     private boolean editMode;
     private int mId;
 
@@ -79,7 +82,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             etEndPoint.setText(intent.getStringExtra(END));
             tvDate.setText(intent.getStringExtra(DATE));
             tvTime.setText(intent.getStringExtra(TIME));
-            radioButton.setText(intent.getStringExtra(TYPE));
+           // radioButton.setText(intent.getStringExtra(TYPE));
         } else {
             // add trip
             setTitle("Add Trip");
@@ -138,7 +141,10 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         String tripEndPoint = etEndPoint.getText().toString().trim();
         String tripDate = tvDate.getText().toString().trim();
         String tripTime = tvTime.getText().toString().trim();
-        String tripType = radioButton.getText().toString().trim();
+        int tripPosition = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(tripPosition);
+        tripType = radioButton.getText().toString().trim();
+
         TripClass tripClass = new TripClass(tripName, tripStartPoint, tripEndPoint, tripDate, tripTime, tripType);
 
         if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
@@ -150,11 +156,9 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
 
         if (editMode) {
             tripClass.setId(mId);
-            addTripViewModel.update(new TripClass(tripName, tripStartPoint, tripEndPoint,
-                    tripDate, tripTime, tripType));
+            addTripViewModel.update(tripClass);
         } else {
-            addTripViewModel.insert(new TripClass(tripName, tripStartPoint, tripEndPoint,
-                    tripDate, tripTime, tripType));
+            addTripViewModel.insert(tripClass);
         }
 
         finish();
@@ -200,11 +204,9 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         btnSaveTrip = findViewById(R.id.btn_add_trip);
         radioGroup = findViewById(R.id.radio_group);
         // to get button checked
-        int radioButtonId = radioGroup.getCheckedRadioButtonId();
-        radioButton = findViewById(radioButtonId);
+
 
     }
-
     // this method to set date
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
@@ -216,7 +218,6 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         tvDate.setText(dateFormat);
 
     }
-
     // this method to set time
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {

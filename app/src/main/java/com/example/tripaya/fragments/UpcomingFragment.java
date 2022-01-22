@@ -68,6 +68,7 @@ public class UpcomingFragment extends Fragment {
             tripAdapter.setTrips(tripClasses);
         });
 
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -86,15 +87,17 @@ public class UpcomingFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerViewTrip);
 
-        tripAdapter.serOnItemClickListener(tripClass -> {
+        tripAdapter.OnItemClickListener(tripClass -> {
+
             Intent intent = new Intent(getActivity(), AddTripActivity.class);
+
             intent.putExtra(AddTripActivity.ID,tripClass.getId());
             intent.putExtra(AddTripActivity.NAME,tripClass.getTripName());
             intent.putExtra(AddTripActivity.START,tripClass.getStartPoint());
             intent.putExtra(AddTripActivity.END,tripClass.getEndPoint());
             intent.putExtra(AddTripActivity.DATE,tripClass.getDate());
             intent.putExtra(AddTripActivity.TIME,tripClass.getTime());
-            intent.putExtra(AddTripActivity.TYPE,tripClass.getTripType());
+           // intent.putExtra(AddTripActivity.TYPE,tripClass.getTripType());
             startActivity(intent);
 
         });

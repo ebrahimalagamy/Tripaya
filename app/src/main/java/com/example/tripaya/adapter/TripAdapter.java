@@ -87,7 +87,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         void onItemClick(TripClass tripClass);
     }
 
-    public void serOnItemClickListener(OnItemClickListener listener) {
+    public void OnItemClickListener(OnItemClickListener listener) {
 
         this.listener = listener;
     }

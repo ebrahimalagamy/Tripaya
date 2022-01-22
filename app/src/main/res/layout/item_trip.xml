@@ -26,24 +26,24 @@
             android:id="@+id/tv_date_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_below="@+id/tv_trip_name"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
             android:text="@string/string_tv_date"
-            android:textSize="18sp"
             android:textColor="@color/white"
-            android:layout_below="@+id/tv_trip_name" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_time_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_trip_name"
             android:layout_marginStart="10dp"
             android:layout_marginTop="3dp"
-            android:text="@string/string_tv_time"
-            android:textSize="18sp"
-            android:textColor="@color/white"
             android:layout_toRightOf="@+id/tv_date_picker"
-            android:layout_below="@+id/tv_trip_name"/>
+            android:text="@string/string_tv_time"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_trip_type"
@@ -63,9 +63,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/map_marker"
-            />
+            android:layout_marginRight="10dp"
+            android:src="@drawable/map_marker" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

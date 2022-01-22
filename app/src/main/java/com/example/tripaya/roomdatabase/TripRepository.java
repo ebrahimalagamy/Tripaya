@@ -10,11 +10,11 @@ import java.util.List;
 
 // fetch data room room / we service and liveDate notify viewModel
 public class TripRepository {
-    private TripDao tripDao ;
+    private TripDao tripDao;
     private LiveData<List<TripClass>> getAllTrips;
 
     // in view model will pass application and application is subclass of context
-    public TripRepository(Application application){
+    public TripRepository(Application application) {
         TripDatabase tripDatabase = TripDatabase.getInstance(application);
 
         // tripDao() is abstract in TripDatabase class
@@ -23,16 +23,19 @@ public class TripRepository {
     }
 
     // write operation in another thread
-    public void insert(TripClass tripClass){
+    public void insert(TripClass tripClass) {
         new InsertTripAsyncTask(tripDao).execute(tripClass);
     }
-    public void update(TripClass tripClass){
+
+    public void update(TripClass tripClass) {
         new UpdateTripAsyncTask(tripDao).execute(tripClass);
     }
-    public void delete(TripClass tripClass){
+
+    public void delete(TripClass tripClass) {
         new DeleteTripAsyncTask(tripDao).execute(tripClass);
     }
-    public void deleteAllTrips(){
+
+    public void deleteAllTrips() {
         new DeleteAllTripAsyncTask(tripDao).execute();
     }
 
@@ -40,13 +43,15 @@ public class TripRepository {
         return getAllTrips;
     }
 
-    private static class InsertTripAsyncTask extends AsyncTask<TripClass,Void,Void>{
+    private static class InsertTripAsyncTask extends AsyncTask<TripClass, Void, Void> {
 
         //need dao to make database operation
         private TripDao tripDao;
-        public InsertTripAsyncTask(TripDao tripDao){
+
+        public InsertTripAsyncTask(TripDao tripDao) {
             this.tripDao = tripDao;
         }
+
         @Override
         protected Void doInBackground(TripClass... tripClasses) {
             tripDao.insert(tripClasses[0]);
@@ -55,13 +60,16 @@ public class TripRepository {
 
 
     }
-    private static class UpdateTripAsyncTask extends AsyncTask<TripClass,Void,Void>{
+
+    private static class UpdateTripAsyncTask extends AsyncTask<TripClass, Void, Void> {
 
         //need dao to make database operation
         private TripDao tripDao;
-        public UpdateTripAsyncTask(TripDao tripDao){
+
+        public UpdateTripAsyncTask(TripDao tripDao) {
             this.tripDao = tripDao;
         }
+
         @Override
         protected Void doInBackground(TripClass... tripClasses) {
             tripDao.update(tripClasses[0]);
@@ -70,13 +78,16 @@ public class TripRepository {
 
 
     }
-    private static class DeleteTripAsyncTask extends AsyncTask<TripClass,Void,Void>{
+
+    private static class DeleteTripAsyncTask extends AsyncTask<TripClass, Void, Void> {
 
         //need dao to make database operation
         private TripDao tripDao;
-        public DeleteTripAsyncTask(TripDao tripDao){
+
+        public DeleteTripAsyncTask(TripDao tripDao) {
             this.tripDao = tripDao;
         }
+
         @Override
         protected Void doInBackground(TripClass... tripClasses) {
             tripDao.delete(tripClasses[0]);
@@ -85,13 +96,16 @@ public class TripRepository {
 
 
     }
-    private static class DeleteAllTripAsyncTask extends AsyncTask<Void,Void,Void>{
+
+    private static class DeleteAllTripAsyncTask extends AsyncTask<Void, Void, Void> {
 
         //need dao to make database operation
         private TripDao tripDao;
-        public DeleteAllTripAsyncTask(TripDao tripDao){
+
+        public DeleteAllTripAsyncTask(TripDao tripDao) {
             this.tripDao = tripDao;
         }
+
         @Override
         protected Void doInBackground(Void... voids) {
             tripDao.deleteAllTrips();

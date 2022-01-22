@@ -153,7 +153,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:checkedButton="@+id/radio_button_one_way"
                 app:layout_constraintStart_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/textView6">
 
@@ -161,13 +160,13 @@
                     android:id="@+id/radio_button_one_way"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="One Way"
                     android:checked="true"
-                    android:text="One Way" />
+                    />
 
                 <RadioButton
                     android:id="@+id/radio_button_round_trip"
                     android:layout_width="match_parent"
-                    android:checked="false"
                     android:layout_height="wrap_content"
                     android:text="Round Trip" />
             </RadioGroup>

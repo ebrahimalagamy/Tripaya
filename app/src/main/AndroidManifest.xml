@@ -19,16 +19,18 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".activities.Splash"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.Splash"
+            android:exported="false">
+
         </activity>
     </application>
 
