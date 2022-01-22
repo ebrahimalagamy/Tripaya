@@ -6,31 +6,6 @@
     app:startDestination="@id/login">
 
     <fragment
-        android:id="@+id/upcomingFragment"
-        android:name="com.example.tripaya.fragments.UpcomingFragment"
-        android:label="UpcomingFragment"
-        tools:layout="@layout/fragment_upcoming">
-        <action
-            android:id="@+id/action_upcomingFragment_to_addTripFragment2"
-            app:destination="@id/addTripFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/historyFragment"
-        android:name="com.example.tripaya.fragments.HistoryFragment"
-        android:label="fragment_history"
-        tools:layout="@layout/fragment_history" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.tripaya.fragments.ProfileFragment"
-        android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
-    <fragment
-        android:id="@+id/addTripFragment2"
-        android:name="com.example.tripaya.fragments.AddTripFragment"
-        android:label="fragment_add_trip"
-        tools:layout="@layout/fragment_add_trip" />
-
-    <fragment
         android:id="@+id/login"
         android:name="com.example.tripaya.Authentication.Login"
         android:label="fragment_login"
@@ -42,8 +17,8 @@
             android:id="@+id/login_to_forgotPassword"
             app:destination="@id/forgotPassword" />
         <action
-            android:id="@+id/login_to_upcomingFragment"
-            app:destination="@id/upcomingFragment" />
+            android:id="@+id/action_login_to_mainFragment2"
+            app:destination="@id/mainFragment2" />
     </fragment>
     <fragment
         android:id="@+id/register"
@@ -63,4 +38,16 @@
             android:id="@+id/forgotPassword_to_login"
             app:destination="@id/login" />
     </fragment>
+    <include app:graph="@navigation/nag_2" />
+    <fragment
+        android:id="@+id/mainFragment2"
+        android:name="com.example.tripaya.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment2_to_nag_2"
+            app:destination="@id/nag_2" />
+    </fragment>
+
+
 </navigation>
