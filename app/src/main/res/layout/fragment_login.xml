@@ -36,20 +36,22 @@
         app:layout_constraintVertical_bias="0.497" />
 
 
+
     <EditText
         android:id="@+id/emailResetId"
         android:layout_width="320dp"
         android:layout_height="60dp"
-        android:layout_marginTop="192dp"
         android:background="@drawable/edit_round"
         android:drawableLeft="@drawable/ic_baseline_email_24"
         android:drawablePadding="6dp"
         android:hint="@string/user_email"
         android:paddingLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.295" />
 
     <EditText
         android:id="@+id/passwordId"
@@ -72,16 +74,18 @@
         android:id="@+id/resetPwId"
         android:layout_width="320dp"
         android:layout_height="60dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="260dp"
         android:background="@drawable/button_round"
         android:text="@string/main_log"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPassId" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordId"
+        app:layout_constraintVertical_bias="0.455" />
 
     <TextView
         android:id="@+id/forgotPassId"
@@ -89,8 +93,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/for_pw"
-        android:textColor="@color/black"
         android:textSize="15sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/passwordId"
         app:layout_constraintTop_toBottomOf="@+id/passwordId" />
 
@@ -98,11 +102,10 @@
         android:id="@+id/tvSignUpId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="240dp"
+        android:layout_marginTop="20dp"
         android:text="@string/tvSignUp"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/resetPwId"
         app:layout_constraintStart_toStartOf="@+id/resetPwId"
         app:layout_constraintTop_toBottomOf="@+id/resetPwId" />

@@ -9,7 +9,6 @@ import android.view.WindowManager;
 
 import com.example.tripaya.MainActivity;
 import com.example.tripaya.R;
-import com.example.tripaya.viewmodel.LoginActivity;
 
 public class Splash extends AppCompatActivity {
 
@@ -22,7 +21,7 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable(){
           @Override
             public void run(){
-              Intent intent=new Intent(Splash.this, LoginActivity.class);
+              Intent intent=new Intent(Splash.this, MainActivity.class);
               startActivity(intent);
               finish();
           }

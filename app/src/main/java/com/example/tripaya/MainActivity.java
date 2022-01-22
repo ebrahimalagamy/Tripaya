@@ -1,30 +1,23 @@
 package com.example.tripaya;
 
-import static android.view.View.VISIBLE;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.example.tripaya.fragments.AddTripFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
+
     private FloatingActionButton fabUpcomingFragment;
     private ImageButton imageButtonHistory, imageButtonProfile;
-    private int place_word, place_exam;
     private NavController navController;
-    public RelativeLayout coordinatorLayout;
+    private int upcomingSwitch, historySwitch, profileSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +32,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewsListener() {
-        place_word = 1;
+        upcomingSwitch = 0;
+        historySwitch = 0;
+        profileSwitch = 0;
+
         imageButtonHistory.setOnClickListener(v -> {
-            if (place_word == 1) {
+            if (historySwitch == 0) {
+                historySwitch = 1;
+
+                YoYo.with(Techniques.FadeOut)
+                        .duration(400)
+                        .onEnd(animator -> {
+                            imageButtonHistory.setImageResource(R.drawable.history);
+                            YoYo.with(Techniques.BounceInUp)
+                                    .duration(500).playOn(imageButtonHistory);
+                        }).playOn(imageButtonHistory);
+                // switch to history fragment
+                navController.navigate(R.id.historyFragment);
+
+            }
+            if (upcomingSwitch == 0) {
+                upcomingSwitch = 1;
                 YoYo.with(Techniques.RotateOut)
                         .duration(500)
                         .onEnd(animator -> {
@@ -52,26 +63,22 @@ public class MainActivity extends AppCompatActivity {
                         .playOn(fabUpcomingFragment);
             }
 
-            place_word = 0;
-            if (place_exam == 0) {
-                place_exam = 1;
+            if (profileSwitch == 1) {
+                profileSwitch = 0;
                 YoYo.with(Techniques.FadeOut)
                         .duration(400)
                         .onEnd(animator -> {
-                            imageButtonHistory.setImageResource(R.drawable.history);
+                            imageButtonProfile.setImageResource(R.drawable.profile);
                             YoYo.with(Techniques.BounceInUp)
-                                    .duration(500).playOn(imageButtonHistory);
-                        }).playOn(imageButtonHistory);
-
-                navController.navigate(R.id.historyFragment);
-
+                                    .duration(500).playOn(imageButtonProfile);
+                        }).playOn(imageButtonProfile);
             }
-        });
-        fabUpcomingFragment.setOnClickListener(v -> {
-            if (place_word == 0) {
-                navController.navigate(R.id.upcomingFragment);
-                place_word = 1;
 
+        });
+
+        fabUpcomingFragment.setOnClickListener(v -> {
+            if (upcomingSwitch == 1) {
+                upcomingSwitch = 0;
                 YoYo.with(Techniques.RotateOut)
                         .duration(700)
                         .onEnd(animator -> {
@@ -81,12 +88,15 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .playOn(fabUpcomingFragment);
 
-            } else if (place_word == 1) {
+                // switch to upcoming fragment
+                navController.navigate(R.id.upcomingFragment);
+            } else if (upcomingSwitch == 0) {
                 Intent i = new Intent(MainActivity.this, AddTripActivity.class);
                 startActivity(i);
             }
-            if (place_exam == 1) {
-                place_exam = 0;
+
+            if (historySwitch == 1) {
+                historySwitch = 0;
                 YoYo.with(Techniques.FadeOut)
                         .duration(400)
                         .onEnd(animator -> {
@@ -95,23 +105,37 @@ public class MainActivity extends AppCompatActivity {
                                     .duration(500).playOn(imageButtonHistory);
                         }).playOn(imageButtonHistory);
             }
+            if (profileSwitch == 1) {
+                profileSwitch = 0;
+                YoYo.with(Techniques.FadeOut)
+                        .duration(400)
+                        .onEnd(animator -> {
+                            imageButtonProfile.setImageResource(R.drawable.profile);
+                            YoYo.with(Techniques.BounceInUp)
+                                    .duration(500).playOn(imageButtonProfile);
+                        }).playOn(imageButtonProfile);
 
+            }
 
         });
-        // TODO will fix the image transaction
+
         imageButtonProfile.setOnClickListener(v -> {
-            if (place_exam == 1) {
-                place_exam = 0;
+            if (profileSwitch == 0) {
+                profileSwitch = 1;
                 YoYo.with(Techniques.FadeOut)
                         .duration(400)
                         .onEnd(animator -> {
-                            imageButtonHistory.setImageResource(R.drawable.history);
+                            imageButtonProfile.setImageResource(R.drawable.profile);
                             YoYo.with(Techniques.BounceInUp)
-                                    .duration(500).playOn(imageButtonHistory);
-                        }).playOn(imageButtonHistory);
+                                    .duration(500).playOn(imageButtonProfile);
+                        }).playOn(imageButtonProfile);
+
+                // switch to profile fragment
+                navController.navigate(R.id.profileFragment);
             }
 
-            if (place_word == 1) {
+            if (upcomingSwitch == 0) {
+                upcomingSwitch = 1;
                 YoYo.with(Techniques.RotateOut)
                         .duration(500)
                         .onEnd(animator -> {
@@ -122,8 +146,17 @@ public class MainActivity extends AppCompatActivity {
                         .playOn(fabUpcomingFragment);
 
             }
-            place_word = 0;
-            navController.navigate(R.id.profileFragment);
+            if (historySwitch == 1) {
+                historySwitch = 0;
+                YoYo.with(Techniques.FadeOut)
+                        .duration(500)
+                        .onEnd(animator -> {
+                            imageButtonHistory.setImageResource(R.drawable.history);
+                            YoYo.with(Techniques.BounceIn)
+                                    .duration(500).playOn(imageButtonHistory);
+                        })
+                        .playOn(imageButtonHistory);
+            }
 
         });
 
@@ -134,9 +167,5 @@ public class MainActivity extends AppCompatActivity {
         fabUpcomingFragment = findViewById(R.id.fab_button);
         imageButtonHistory = findViewById(R.id.image_button_history);
         imageButtonProfile = findViewById(R.id.image_button_profile);
-        coordinatorLayout= findViewById(R.id.gone);
-
     }
-
-
 }

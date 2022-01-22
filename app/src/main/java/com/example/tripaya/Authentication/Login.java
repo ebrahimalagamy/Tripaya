@@ -1,7 +1,6 @@
 package com.example.tripaya.Authentication;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import androidx.navigation.Navigation;
 
 import com.example.tripaya.MainActivity;
 import com.example.tripaya.R;
-import com.example.tripaya.viewmodel.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -47,37 +45,7 @@ public class Login extends Fragment {
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailx = email.getText().toString();
-                String passwordx = password.getText().toString();
-
-                if (!emailx.matches(emailPattern)){
-                    email.setError("Enter Correct Email");
-                }
-                else if(passwordx.isEmpty() || passwordx.length()<6){
-                    password.setError("Password has to be 6 or more characters");
-                }
-                else {
-                    progressDialog.setMessage("Logging in...");
-                    progressDialog.setTitle("Login");
-                    progressDialog.setCanceledOnTouchOutside(false);
-                    progressDialog.show();
-
-                    mAuth.signInWithEmailAndPassword(emailx,passwordx).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                progressDialog.dismiss();
-                                Intent intent = new Intent(getContext(),MainActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(getContext(), "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                progressDialog.dismiss();
-                                Toast.makeText(getContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
+                performLogin();
             }
         });
 
@@ -117,7 +85,36 @@ public class Login extends Fragment {
 
     private void performLogin(){
 
+        String emailx = email.getText().toString();
+        String passwordx = password.getText().toString();
 
+        if (!emailx.matches(emailPattern)){
+            email.setError("Enter Correct Email");
+        }
+        else if(passwordx.isEmpty() || passwordx.length()<6){
+            password.setError("Password has to be 6 or more characters");
+        }
+        else {
+            progressDialog.setMessage("Logging in...");
+            progressDialog.setTitle("Login");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+
+            mAuth.signInWithEmailAndPassword(emailx,passwordx).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        progressDialog.dismiss();
+                        Navigation.findNavController(getView()).navigate(R.id.login_to_upcomingFragment);
+                        Toast.makeText(getContext(), "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        progressDialog.dismiss();
+                        Toast.makeText(getContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
 
     }
 
