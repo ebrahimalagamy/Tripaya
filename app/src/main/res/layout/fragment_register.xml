@@ -28,16 +28,18 @@
             android:id="@+id/usernameId"
             android:layout_width="320dp"
             android:layout_height="60dp"
-            android:background="@drawable/edit_round"
-            android:drawableLeft="@drawable/ic_baseline_supervised_user_circle_24"
-            android:drawablePadding="6dp"
+            android:layout_marginTop="150dp"
             android:ems="10"
             android:hint="@string/username_hint"
             android:inputType="textPersonName"
-            android:paddingLeft="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/edit_round"
+            android:drawableLeft="@drawable/ic_baseline_supervised_user_circle_24"
+            android:paddingLeft="10dp"
+            android:drawablePadding="6dp"
+            />
 
         <EditText
             android:id="@+id/regEmailId"
@@ -89,16 +91,16 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/regBtnId"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="320dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="100dp"
-            android:background="@drawable/button_round"
             android:text="@string/reg_btn"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/conPassId"
             app:layout_constraintStart_toStartOf="@+id/conPassId"
-            app:layout_constraintTop_toBottomOf="@+id/conPassId" />
+            app:layout_constraintTop_toBottomOf="@+id/conPassId"
+            android:background="@drawable/button_round"/>
 
     <TextView
         android:id="@+id/alreadyHaveId"

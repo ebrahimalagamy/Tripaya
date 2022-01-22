@@ -105,7 +105,7 @@ public class Login extends Fragment {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         progressDialog.dismiss();
-                       Navigation.findNavController(getView()).navigate(R.id.action_login_to_mainFragment2);
+                        Navigation.findNavController(getView()).navigate(R.id.login_to_upcomingFragment);
                         Toast.makeText(getContext(), "Logged in Successfully", Toast.LENGTH_SHORT).show();
                     }
                     else{
