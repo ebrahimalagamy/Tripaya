@@ -7,11 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".activities.Splash"
     android:background="#65CDD8">
+
   <ImageView
       android:layout_width="400dp"
       android:layout_height="400dp"
       android:layout_centerInParent="true"
-      android:src="@drawable/trip"/>
+      android:src="@drawable/trip" />
 
     <TextView
         android:layout_width="wrap_content"

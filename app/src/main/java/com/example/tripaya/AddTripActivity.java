@@ -48,6 +48,15 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     private RadioButton radioButton;
     private AddTripViewModel addTripViewModel;
 
+    public static final String ID = "com.example.tripaya.id";
+    public static final String NAME = "com.example.tripaya.name";
+    public static final String START = "com.example.tripaya.start";
+    public static final String END = "com.example.tripaya.end";
+    public static final String DATE = "com.example.tripaya.date";
+    public static final String TIME = "com.example.tripaya.time";
+    public static final String TYPE = "com.example.tripaya.type";
+    private boolean editMode;
+    private int mId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +67,26 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         initListener();
         //initialize places
         Places.initialize(getApplicationContext(), API_KEY);
+
+        Intent intent = getIntent();
+        if (intent.hasExtra(ID)) {
+            // edit trip
+            setTitle("Edit Trip");
+            editMode = true;
+            mId = intent.getIntExtra(ID, -1);
+            etTripName.setText(intent.getStringExtra(NAME));
+            etStartPoint.setText(intent.getStringExtra(START));
+            etEndPoint.setText(intent.getStringExtra(END));
+            tvDate.setText(intent.getStringExtra(DATE));
+            tvTime.setText(intent.getStringExtra(TIME));
+            radioButton.setText(intent.getStringExtra(TYPE));
+        } else {
+            // add trip
+            setTitle("Add Trip");
+            editMode = false;
+        }
         addTripViewModel = new ViewModelProvider(this).get(AddTripViewModel.class);
+
     }
 
     private void initListener() {
@@ -103,6 +131,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         btnSaveTrip.setOnClickListener(view -> saveTrip());
 
     }
+
     private void saveTrip() {
         String tripName = etTripName.getText().toString().trim();
         String tripStartPoint = etStartPoint.getText().toString().trim();
@@ -110,15 +139,23 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         String tripDate = tvDate.getText().toString().trim();
         String tripTime = tvTime.getText().toString().trim();
         String tripType = radioButton.getText().toString().trim();
+        TripClass tripClass = new TripClass(tripName, tripStartPoint, tripEndPoint, tripDate, tripTime, tripType);
 
-        if (tripName.isEmpty() ||tripStartPoint.isEmpty() ||tripEndPoint.isEmpty() ||tripDate.isEmpty() ||
-                tripTime.isEmpty()|| tripType.isEmpty() ){
+        if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
+                tripTime.isEmpty() || tripType.isEmpty()) {
             Toast.makeText(this, "Please Enter All the Information", Toast.LENGTH_SHORT).show();
             return;
         }
         // insert trip in database and close this activity
-        addTripViewModel.insert(new TripClass(tripName,tripStartPoint,tripEndPoint,
-                tripDate,tripTime,tripType));
+
+        if (editMode) {
+            tripClass.setId(mId);
+            addTripViewModel.update(new TripClass(tripName, tripStartPoint, tripEndPoint,
+                    tripDate, tripTime, tripType));
+        } else {
+            addTripViewModel.insert(new TripClass(tripName, tripStartPoint, tripEndPoint,
+                    tripDate, tripTime, tripType));
+        }
 
         finish();
     }
