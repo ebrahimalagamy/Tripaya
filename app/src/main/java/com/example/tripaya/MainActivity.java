@@ -168,4 +168,6 @@ public class MainActivity extends AppCompatActivity {
         imageButtonHistory = findViewById(R.id.image_button_history);
         imageButtonProfile = findViewById(R.id.image_button_profile);
     }
+
+    
 }
