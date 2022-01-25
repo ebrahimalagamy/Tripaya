@@ -70,6 +70,9 @@ dependencies {
     //imageUrl
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation 'com.github.jd-alexander:library:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
 
 
 

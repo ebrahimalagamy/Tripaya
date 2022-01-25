@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,10 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tripaya.AddTripActivity;
 import com.example.tripaya.R;
 import com.example.tripaya.adapter.TripAdapter;
-import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.TripViewModel;
-
-import java.util.List;
 
 public class UpcomingFragment extends Fragment {
     private RecyclerView recyclerViewTrip;
@@ -49,6 +45,12 @@ public class UpcomingFragment extends Fragment {
         initRecycler();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().setTitle("Upcoming");
+    }
+
     private void initComponent() {
         recyclerViewTrip = view.findViewById(R.id.recycler_view_trip);
     }
@@ -68,9 +70,9 @@ public class UpcomingFragment extends Fragment {
             tripAdapter.setTrips(tripClasses);
         });
 
-
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                ItemTouchHelper.LEFT |
+                        ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -83,21 +85,22 @@ public class UpcomingFragment extends Fragment {
                 // we set method return position depend on the position in the adapter
                 tripViewModel.delete(tripAdapter.getTripAt(viewHolder.getAdapterPosition()));
                 Toast.makeText(getActivity(), "Trip Deleted", Toast.LENGTH_SHORT).show();
-
             }
         }).attachToRecyclerView(recyclerViewTrip);
 
+        // when i click on item then send info to add trip activity to edit it
         tripAdapter.OnItemClickListener(tripClass -> {
 
             Intent intent = new Intent(getActivity(), AddTripActivity.class);
 
-            intent.putExtra(AddTripActivity.ID,tripClass.getId());
-            intent.putExtra(AddTripActivity.NAME,tripClass.getTripName());
-            intent.putExtra(AddTripActivity.START,tripClass.getStartPoint());
-            intent.putExtra(AddTripActivity.END,tripClass.getEndPoint());
-            intent.putExtra(AddTripActivity.DATE,tripClass.getDate());
-            intent.putExtra(AddTripActivity.TIME,tripClass.getTime());
-           // intent.putExtra(AddTripActivity.TYPE,tripClass.getTripType());
+            intent.putExtra(AddTripActivity.ID, tripClass.getId());
+            intent.putExtra(AddTripActivity.NAME, tripClass.getTripName());
+            intent.putExtra(AddTripActivity.START, tripClass.getStartPoint());
+            intent.putExtra(AddTripActivity.END, tripClass.getEndPoint());
+            intent.putExtra(AddTripActivity.DATE, tripClass.getDate());
+            intent.putExtra(AddTripActivity.TIME, tripClass.getTime());
+            intent.putExtra(AddTripActivity.NOTE, tripClass.getNote());
+            // intent.putExtra(AddTripActivity.TYPE,tripClass.getTripType());
             startActivity(intent);
 
         });
@@ -109,6 +112,7 @@ public class UpcomingFragment extends Fragment {
         menuInflater.inflate(R.menu.upcoming_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

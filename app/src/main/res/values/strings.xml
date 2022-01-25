@@ -5,7 +5,7 @@
     <string name="string_tv_date">Date</string>
     <string name="string_tv_time">Time</string>
     <string name="string_add_notes">+ Notes</string>
-    <string name="string_add_trip">Add</string>
+    <string name="string_add_trip">Add Trip</string>
     <string name="string_trip_name">Trip Name</string>
 
     <string name="string_tv_trip_type">Trip Type</string>
@@ -42,4 +42,14 @@
     <string name="back_btn">Back To Login</string>
     <string name="facebook_app_id">645629160110351</string>
     <string name="fb_login_protocol_scheme">fb645629160110351</string>
+    <string name="string_btn_save_trip_switch">Edit</string>
+    <string name="string_btn_Add_trip_switch">Add</string>
+    <string name="string_radio_button_one_way">One Way</string>
+    <string name="string_radio_button_round_trip">Round Trip</string>
+    <string name="string_edit_text_trip_name">Trip Name</string>
+    <string name="string_edit_text_start_point">Start Point</string>
+    <string name="string_edit_text_end_point">End Point</string>
+    <string name="string_edit_text_select_type">Select Trip Type</string>
+    <string name="string_btn_string">Start</string>
+    <string name="string_notes">Notes</string>
 </resources>
