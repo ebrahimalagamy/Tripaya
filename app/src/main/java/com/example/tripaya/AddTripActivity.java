@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,13 +41,14 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     private static final int REQUEST_CODE = 100;
     private static final String API_KEY = "AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q";
     private ImageButton imageButtonCalender, imageButtonTime;
-    private TextView tvDate, tvTime;
+    private TextView tvDate, tvTime,tvStatus;
     private EditText etStartPoint, etEndPoint, etTripName;
     private int switchTagEditText = -1;
-    private Button btnSaveTrip;
+    private Button btnSaveTrip,btnStartTrip;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private AddTripViewModel addTripViewModel;
+
 
     public static final String ID = "com.example.tripaya.id";
     public static final String NAME = "com.example.tripaya.name";
@@ -73,16 +75,21 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
 
         Intent intent = getIntent();
         if (intent.hasExtra(ID)) {
-            // edit trip
-            setTitle("Edit Trip");
+            // Details trip
+            setTitle("Trip Details");
+            btnStartTrip.setVisibility(View.VISIBLE);
+            btnStartTrip.setText("Start");
+
             editMode = true;
             btnSaveTrip.setText(R.string.string_btn_save_trip_switch);
             mId = intent.getIntExtra(ID, -1);
+            //setBtnEnables();
             etTripName.setText(intent.getStringExtra(NAME));
             etStartPoint.setText(intent.getStringExtra(START));
             etEndPoint.setText(intent.getStringExtra(END));
             tvDate.setText(intent.getStringExtra(DATE));
             tvTime.setText(intent.getStringExtra(TIME));
+
            // radioButton.setText(intent.getStringExtra(TYPE));
         } else {
             // add trip
@@ -93,6 +100,15 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         addTripViewModel = new ViewModelProvider(this).get(AddTripViewModel.class);
 
     }
+
+   /* private void setBtnEnables() {
+        etTripName.setEnabled(false);
+        etStartPoint.setEnabled(false);
+        etEndPoint.setEnabled(false);
+        tvDate.setEnabled(false);
+        tvTime.setEnabled(false);
+
+    }*/
 
     private void initListener() {
         // click buttonImage to Call DatePickerFragment
@@ -138,16 +154,19 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     }
 
     private void saveTrip() {
+
         String tripName = etTripName.getText().toString().trim();
         String tripStartPoint = etStartPoint.getText().toString().trim();
         String tripEndPoint = etEndPoint.getText().toString().trim();
         String tripDate = tvDate.getText().toString().trim();
         String tripTime = tvTime.getText().toString().trim();
+        //String tripStatus = tvStatus.getText().toString().trim();
+
         int tripPosition = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(tripPosition);
         tripType = radioButton.getText().toString().trim();
 
-        TripClass tripClass = new TripClass(tripName, tripStartPoint, tripEndPoint, tripDate, tripTime, tripType);
+        TripClass tripClass = new TripClass(tripName, tripStartPoint, tripEndPoint, tripDate, tripTime, tripType,"Upcoming");
 
         if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
                 tripTime.isEmpty() || tripType.isEmpty()) {
@@ -205,6 +224,9 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         etEndPoint = findViewById(R.id.et_end_point);
         btnSaveTrip = findViewById(R.id.btn_add_trip);
         radioGroup = findViewById(R.id.radio_group);
+        tvStatus = findViewById(R.id.tv_status);
+        btnStartTrip = findViewById(R.id.btnStart);
+
         // to get button checked
 
 

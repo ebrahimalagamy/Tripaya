@@ -23,18 +23,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initComponent();
 
+        initComponent();
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
-
         initViewsListener();
     }
 
     private void initViewsListener() {
-        upcomingSwitch = 0;
-        historySwitch = 0;
-        profileSwitch = 0;
+        upcomingSwitch = historySwitch = profileSwitch= 0;
 
         imageButtonHistory.setOnClickListener(v -> {
             if (historySwitch == 0) {
@@ -75,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
         fabUpcomingFragment.setOnClickListener(v -> {
             if (upcomingSwitch == 1) {
                 upcomingSwitch = 0;
@@ -118,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
         imageButtonProfile.setOnClickListener(v -> {
             if (profileSwitch == 0) {
                 profileSwitch = 1;
@@ -159,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
     }
 
     private void initComponent() {

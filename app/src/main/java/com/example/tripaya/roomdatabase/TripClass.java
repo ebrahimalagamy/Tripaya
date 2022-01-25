@@ -17,16 +17,22 @@ public class TripClass {
     private String date;
     private String time;
     private String tripType;
+    private String tripStatus;
+   /* private String note;
+    private String roundDate;
+    private String roundTime;*/
 
 
 
-    public TripClass(String tripName, String startPoint, String endPoint, String date, String time, String tripType) {
+    public TripClass(String tripName, String startPoint, String endPoint, String date,
+                     String time, String tripType, String tripStatus) {
         this.tripName = tripName;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.date = date;
         this.time = time;
         this.tripType = tripType;
+        this.tripStatus = tripStatus;
     }
 
     public void setId(int id) {
@@ -59,5 +65,9 @@ public class TripClass {
 
     public String getTripType() {
         return tripType;
+    }
+
+    public String getTripStatus() {
+        return tripStatus;
     }
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:elevation="4dp"
     app:cardCornerRadius="15dp">
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -110,14 +111,26 @@
             app:layout_constraintStart_toEndOf="@+id/imageButton" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:scaleType="fitXY"
+            android:id="@+id/image_button_option"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@null"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/moree" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Upcoming"
+        android:textColor="#40000000"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:visibility="gone"
+
+        >
+    </TextView>
 </androidx.cardview.widget.CardView>

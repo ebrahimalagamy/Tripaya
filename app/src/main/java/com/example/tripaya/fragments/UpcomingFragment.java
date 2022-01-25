@@ -43,7 +43,6 @@ public class UpcomingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         initRecycler();
-
     }
 
     @Override
@@ -72,7 +71,8 @@ public class UpcomingFragment extends Fragment {
         });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                ItemTouchHelper.LEFT |
+                        ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -85,7 +85,6 @@ public class UpcomingFragment extends Fragment {
                 // we set method return position depend on the position in the adapter
                 tripViewModel.delete(tripAdapter.getTripAt(viewHolder.getAdapterPosition()));
                 Toast.makeText(getActivity(), "Trip Deleted", Toast.LENGTH_SHORT).show();
-
             }
         }).attachToRecyclerView(recyclerViewTrip);
 

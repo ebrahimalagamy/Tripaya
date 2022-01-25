@@ -42,7 +42,7 @@
     <string name="back_btn">Back To Login</string>
     <string name="facebook_app_id">645629160110351</string>
     <string name="fb_login_protocol_scheme">fb645629160110351</string>
-    <string name="string_btn_save_trip_switch">Save</string>
+    <string name="string_btn_save_trip_switch">Edit</string>
     <string name="string_btn_Add_trip_switch">Add</string>
     <string name="string_radio_button_one_way">One Way</string>
     <string name="string_radio_button_round_trip">Round Trip</string>
@@ -50,4 +50,5 @@
     <string name="string_edit_text_start_point">Start Point</string>
     <string name="string_edit_text_end_point">End Point</string>
     <string name="string_edit_text_select_type">Select Trip Type</string>
+    <string name="string_btn_string">Start</string>
 </resources>

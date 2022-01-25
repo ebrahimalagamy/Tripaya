@@ -3,7 +3,10 @@ package com.example.tripaya.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +38,28 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         holder.tripDate.setText(tripClass.getDate());
         holder.tripTime.setText(tripClass.getTime());
         holder.tripType.setText(tripClass.getTripType());
+        holder.tripStatus.setText(tripClass.getTripStatus());
+
+
+        holder.itemOption.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.itemOption);
+            popupMenu.inflate(R.menu.item_option);
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.menu_item_start:
+                        Toast.makeText(v.getContext(), "Started", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menu_item_cancel:
+                        Toast.makeText(v.getContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            });
+            popupMenu.show();
+        });
     }
 
     @Override
@@ -64,6 +89,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         private TextView tripDate;
         private TextView tripTime;
         private TextView tripType;
+        private ImageButton itemOption;
+        private TextView tripStatus;
 
 
         public TripHolder(@NonNull View itemView) {
@@ -74,6 +101,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             tripDate = itemView.findViewById(R.id.tv_date_picker);
             tripTime = itemView.findViewById(R.id.tv_time_picker);
             tripType = itemView.findViewById(R.id.tv_trip_type);
+            itemOption = itemView.findViewById(R.id.image_button_option);
+            tripStatus = itemView.findViewById(R.id.tv_status);
 
 
             itemView.setOnClickListener(view -> {
