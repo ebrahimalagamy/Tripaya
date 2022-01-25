@@ -1,6 +1,13 @@
 package com.example.tripaya.adapter;
 
+
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+
 import android.app.Dialog;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +29,15 @@ import java.util.List;
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
     private List<TripClass> trips = new ArrayList<>();
     private OnItemClickListener listener;
+    private Context context;
+
+    public TripAdapter(Context context) {
+        this.context = context;
+    }
+
+    public TripAdapter(){}
+
+
 
     @NonNull
     @Override
@@ -42,6 +58,32 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         holder.tripType.setText(tripClass.getTripType());
         holder.tripStatus.setText(tripClass.getTripStatus());
 
+        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sSource = holder.tripStartPoint.getText().toString().trim();
+                String sDestination = holder.tripEndPoint.getText().toString().trim();
+                if (sSource.equals("") && sDestination.equals("") ){
+                    Toast.makeText(v.getContext(), "Please Enter your start and end location", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    try{
+                        Uri uri = Uri.parse("http://www.google.co.in/maps/dir/"+sSource+"/"+sDestination);
+                        Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                        intent.setPackage("com.google.android.apps.maps");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        v.getContext().startActivity(intent);
+                    }catch (ActivityNotFoundException e){
+                        Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            }
+        });
+
+
         holder.tripNotes.setOnClickListener(v -> {
 
             Dialog dialog = new Dialog(v.getContext());
@@ -55,6 +97,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             textView.setText(tripClass.getNote());
             Toast.makeText(v.getContext(), "Notes", Toast.LENGTH_SHORT).show();
         });
+
 
         holder.itemOption.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.itemOption);
@@ -76,6 +119,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             popupMenu.show();
         });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -104,7 +149,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         private TextView tripDate;
         private TextView tripTime;
         private TextView tripType;
-        private ImageButton itemOption;
+        private ImageButton itemOption,imageButton;
         private TextView tripStatus;
         private ImageButton tripNotes;
 
@@ -119,7 +164,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             tripType = itemView.findViewById(R.id.tv_trip_type);
             itemOption = itemView.findViewById(R.id.image_button_option);
             tripStatus = itemView.findViewById(R.id.tv_status);
+
+            imageButton = itemView.findViewById(R.id.imageButton2);
+
             tripNotes = itemView.findViewById(R.id.image_button_notes);
+
 
 
 
