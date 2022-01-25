@@ -99,6 +99,7 @@ public class UpcomingFragment extends Fragment {
             intent.putExtra(AddTripActivity.END, tripClass.getEndPoint());
             intent.putExtra(AddTripActivity.DATE, tripClass.getDate());
             intent.putExtra(AddTripActivity.TIME, tripClass.getTime());
+            intent.putExtra(AddTripActivity.NOTE, tripClass.getNote());
             // intent.putExtra(AddTripActivity.TYPE,tripClass.getTripType());
             startActivity(intent);
 

@@ -42,13 +42,12 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     private static final String API_KEY = "AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q";
     private ImageButton imageButtonCalender, imageButtonTime;
     private TextView tvDate, tvTime,tvStatus;
-    private EditText etStartPoint, etEndPoint, etTripName;
+    private EditText etStartPoint, etEndPoint, etTripName,etNotes;
     private int switchTagEditText = -1;
     private Button btnSaveTrip,btnStartTrip;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private AddTripViewModel addTripViewModel;
-
 
     public static final String ID = "com.example.tripaya.id";
     public static final String NAME = "com.example.tripaya.name";
@@ -56,10 +55,10 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     public static final String END = "com.example.tripaya.end";
     public static final String DATE = "com.example.tripaya.date";
     public static final String TIME = "com.example.tripaya.time";
+    public static final String NOTE = "com.example.tripaya.note";
    // public static final String TYPE = "com.example.tripaya.type";
 
     private String tripType;
-
     private boolean editMode;
     private int mId;
 
@@ -89,6 +88,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             etEndPoint.setText(intent.getStringExtra(END));
             tvDate.setText(intent.getStringExtra(DATE));
             tvTime.setText(intent.getStringExtra(TIME));
+            etNotes.setText(intent.getStringExtra(NOTE));
 
            // radioButton.setText(intent.getStringExtra(TYPE));
         } else {
@@ -160,13 +160,16 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         String tripEndPoint = etEndPoint.getText().toString().trim();
         String tripDate = tvDate.getText().toString().trim();
         String tripTime = tvTime.getText().toString().trim();
+        String tripNotes = etNotes.getText().toString().trim();
+
         //String tripStatus = tvStatus.getText().toString().trim();
 
         int tripPosition = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(tripPosition);
         tripType = radioButton.getText().toString().trim();
 
-        TripClass tripClass = new TripClass(tripName, tripStartPoint, tripEndPoint, tripDate, tripTime, tripType,"Upcoming");
+        TripClass tripClass = new TripClass(tripName, tripStartPoint, tripEndPoint, tripDate,
+                tripTime, tripType,"Upcoming",tripNotes);
 
         if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
                 tripTime.isEmpty() || tripType.isEmpty()) {
@@ -226,6 +229,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         radioGroup = findViewById(R.id.radio_group);
         tvStatus = findViewById(R.id.tv_status);
         btnStartTrip = findViewById(R.id.btnStart);
+        etNotes = findViewById(R.id.et_notes);
 
         // to get button checked
 
