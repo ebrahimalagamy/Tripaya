@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.tripaya.Authentication.Login;
 import com.example.tripaya.MainActivity;
@@ -17,6 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 public class Splash extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
+    Animation topAnimantion,bottomAnimation;
+    TextView logo,slogan;
+    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,15 @@ public class Splash extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        topAnimantion = AnimationUtils.loadAnimation(this, R.anim.top_animation);
+        bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
+        logo=findViewById(R.id.textView);
+        slogan=findViewById(R.id.textView2);
+        image=findViewById(R.id.image);
+        image.setAnimation(topAnimantion);
+        logo.setAnimation(bottomAnimation);
+        slogan.setAnimation(bottomAnimation);
+
         int secondsDelayed = 1;
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -36,7 +52,7 @@ public class Splash extends AppCompatActivity {
                 }
 
             }
-        }, secondsDelayed * 1000);
+        }, secondsDelayed * 2000);
     }
 
 
