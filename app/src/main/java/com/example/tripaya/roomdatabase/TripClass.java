@@ -18,14 +18,14 @@ public class TripClass {
     private String time;
     private String tripType;
     private String tripStatus;
-   /* private String note;
-    private String roundDate;
+    private String note;
+    /*private String roundDate;
     private String roundTime;*/
 
 
 
     public TripClass(String tripName, String startPoint, String endPoint, String date,
-                     String time, String tripType, String tripStatus) {
+                     String time, String tripType, String tripStatus,String note) {
         this.tripName = tripName;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
@@ -33,6 +33,7 @@ public class TripClass {
         this.time = time;
         this.tripType = tripType;
         this.tripStatus = tripStatus;
+        this.note = note;
     }
 
     public void setId(int id) {
@@ -69,5 +70,9 @@ public class TripClass {
 
     public String getTripStatus() {
         return tripStatus;
+    }
+
+    public String getNote() {
+        return note;
     }
 }

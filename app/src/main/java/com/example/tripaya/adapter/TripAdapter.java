@@ -1,8 +1,10 @@
 package com.example.tripaya.adapter;
 
+import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -40,6 +42,19 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         holder.tripType.setText(tripClass.getTripType());
         holder.tripStatus.setText(tripClass.getTripStatus());
 
+        holder.tripNotes.setOnClickListener(v -> {
+
+            Dialog dialog = new Dialog(v.getContext());
+            dialog.setContentView(R.layout.show_notes_dialog);
+            int width = WindowManager.LayoutParams.MATCH_PARENT;
+            int height = WindowManager.LayoutParams.WRAP_CONTENT;
+            dialog.getWindow().setLayout(width,height);
+            dialog.show();
+
+            TextView textView = dialog.findViewById(R.id.tv_notes);
+            textView.setText(tripClass.getNote());
+            Toast.makeText(v.getContext(), "Notes", Toast.LENGTH_SHORT).show();
+        });
 
         holder.itemOption.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.itemOption);
@@ -91,6 +106,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         private TextView tripType;
         private ImageButton itemOption;
         private TextView tripStatus;
+        private ImageButton tripNotes;
 
 
         public TripHolder(@NonNull View itemView) {
@@ -103,6 +119,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             tripType = itemView.findViewById(R.id.tv_trip_type);
             itemOption = itemView.findViewById(R.id.image_button_option);
             tripStatus = itemView.findViewById(R.id.tv_status);
+            tripNotes = itemView.findViewById(R.id.image_button_notes);
+
 
 
             itemView.setOnClickListener(view -> {
