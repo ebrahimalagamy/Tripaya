@@ -1,70 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:elevation="4dp"
     app:cardCornerRadius="15dp">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="@color/green">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_trip_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/string_trip_name"
-            android:textSize="30sp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="10dp" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_date_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_trip_name"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
             android:text="@string/string_tv_date"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton2"
+            app:layout_constraintStart_toStartOf="@+id/imageButton2"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
 
         <TextView
             android:id="@+id/tv_time_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_trip_name"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/tv_date_picker"
             android:text="@string/string_tv_time"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_date_picker"
+            app:layout_constraintStart_toStartOf="@+id/tv_date_picker"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_picker" />
 
         <TextView
             android:id="@+id/tv_trip_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:layout_marginLeft="10dp"
             android:text="@string/string_tv_trip_type"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_below="@id/tv_date_picker"
-            app:layout_constraintStart_toStartOf="@+id/tv_date_picker"
-            app:layout_constraintTop_toBottomOf="@+id/tv_date_picker" />
+            android:textColor="#CB3C3C"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton"
+            app:layout_constraintStart_toStartOf="@+id/imageButton"
 
-        <ImageView
-            android:id="@+id/markOnMap"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/map_marker" />
-    </RelativeLayout>
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_trip_name"
+            app:srcCompat="@drawable/destination" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="30dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_trip_name"
+            app:srcCompat="@drawable/map" />
+
+        <TextView
+            android:id="@+id/tvStartPoint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/string_edit_text_start_point"
+            app:layout_constraintEnd_toStartOf="@+id/tv_date_picker"
+            app:layout_constraintStart_toEndOf="@+id/imageButton"
+            app:layout_constraintTop_toTopOf="@+id/imageButton" />
+
+        <TextView
+            android:id="@+id/tvEndPoint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/string_edit_text_end_point"
+            app:layout_constraintBottom_toTopOf="@+id/tv_trip_type"
+            app:layout_constraintEnd_toStartOf="@+id/tv_date_picker"
+            app:layout_constraintStart_toEndOf="@+id/imageButton" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:scaleType="fitXY"
+            android:background="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/moree" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

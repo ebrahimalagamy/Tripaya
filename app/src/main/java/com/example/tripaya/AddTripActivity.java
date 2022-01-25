@@ -54,9 +54,9 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     public static final String END = "com.example.tripaya.end";
     public static final String DATE = "com.example.tripaya.date";
     public static final String TIME = "com.example.tripaya.time";
-    public static final String TYPE = "com.example.tripaya.type";
+   // public static final String TYPE = "com.example.tripaya.type";
 
-    String tripType;
+    private String tripType;
 
     private boolean editMode;
     private int mId;
@@ -76,6 +76,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             // edit trip
             setTitle("Edit Trip");
             editMode = true;
+            btnSaveTrip.setText(R.string.string_btn_save_trip_switch);
             mId = intent.getIntExtra(ID, -1);
             etTripName.setText(intent.getStringExtra(NAME));
             etStartPoint.setText(intent.getStringExtra(START));
@@ -87,6 +88,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             // add trip
             setTitle("Add Trip");
             editMode = false;
+            btnSaveTrip.setText(R.string.string_btn_Add_trip_switch);
         }
         addTripViewModel = new ViewModelProvider(this).get(AddTripViewModel.class);
 
@@ -172,13 +174,13 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             Place place = Autocomplete.getPlaceFromIntent(data);
 
             if (switchTagEditText == 0) {
-                etStartPoint.setText(place.getAddress());
+                etStartPoint.setText(place.getName());
             } else if (switchTagEditText == 1) {
-                etEndPoint.setText(place.getAddress());
+                etEndPoint.setText(place.getName());
             }
 
             //set location name
-            String location = String.format("Location name : %s", place.getName());
+            String location = String.format("Location Address : %s", place.getName());
             Toast.makeText(getApplicationContext(), location, Toast.LENGTH_SHORT).show();
             // set latitude and longitude
             String latLong = String.valueOf(place.getLatLng());
@@ -218,9 +220,10 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         tvDate.setText(dateFormat);
 
     }
+
     // this method to set time
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        tvTime.setText(hour + ":" + minute);
+        tvTime.setText(hour + " : " + minute);
     }
 }

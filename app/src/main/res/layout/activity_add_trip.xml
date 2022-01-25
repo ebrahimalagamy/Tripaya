@@ -9,11 +9,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
@@ -23,7 +22,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:hint="Trip Name"
+                android:hint="@string/string_edit_text_trip_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -45,7 +44,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:hint="Start Point"
+                android:hint="@string/string_edit_text_start_point"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
@@ -67,7 +66,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:hint="End Point"
+                android:hint="@string/string_edit_text_end_point"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
@@ -160,15 +159,14 @@
                     android:id="@+id/radio_button_one_way"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="One Way"
                     android:checked="true"
-                    />
+                    android:text="@string/string_radio_button_one_way" />
 
                 <RadioButton
                     android:id="@+id/radio_button_round_trip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Round Trip" />
+                    android:text="@string/string_radio_button_round_trip" />
             </RadioGroup>
 
             <TextView
@@ -176,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Select Trip Type"
+                android:text="@string/string_edit_text_select_type"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/image_button_time"
                 app:layout_constraintTop_toBottomOf="@+id/image_button_time" />

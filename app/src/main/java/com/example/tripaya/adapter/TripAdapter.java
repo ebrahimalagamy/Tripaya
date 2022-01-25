@@ -30,6 +30,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         // this take care to take the data from single node into views in tripHolder
         TripClass tripClass = trips.get(position);
         holder.tripName.setText(tripClass.getTripName());
+        holder.tripStartPoint.setText(tripClass.getStartPoint());
+        holder.tripEndPoint.setText(tripClass.getEndPoint());
         holder.tripDate.setText(tripClass.getDate());
         holder.tripTime.setText(tripClass.getTime());
         holder.tripType.setText(tripClass.getTripType());
@@ -63,21 +65,22 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         private TextView tripTime;
         private TextView tripType;
 
+
         public TripHolder(@NonNull View itemView) {
             super(itemView);
             tripName = itemView.findViewById(R.id.tv_trip_name);
+            tripStartPoint = itemView.findViewById(R.id.tvStartPoint);
+            tripEndPoint = itemView.findViewById(R.id.tvEndPoint);
             tripDate = itemView.findViewById(R.id.tv_date_picker);
             tripTime = itemView.findViewById(R.id.tv_time_picker);
             tripType = itemView.findViewById(R.id.tv_trip_type);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // we need get the position of the item clicked
-                    int position = getAdapterPosition();
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(trips.get(position));
-                    }
+
+            itemView.setOnClickListener(view -> {
+                // we need get the position of the item clicked
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(trips.get(position));
                 }
             });
         }
@@ -88,7 +91,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
     }
 
     public void OnItemClickListener(OnItemClickListener listener) {
-
         this.listener = listener;
     }
 }

@@ -19,6 +19,7 @@ public class TripClass {
     private String tripType;
 
 
+
     public TripClass(String tripName, String startPoint, String endPoint, String date, String time, String tripType) {
         this.tripName = tripName;
         this.startPoint = startPoint;
