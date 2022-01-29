@@ -59,6 +59,11 @@ dependencies {
     // implement map places api
     implementation 'com.google.android.libraries.places:places:2.5.0'
 
+    //implement maps
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
+
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata:2.4.0")
     // Annotation processor
@@ -68,7 +73,6 @@ dependencies {
     implementation("androidx.room:room-runtime:2.4.1")
     annotationProcessor("androidx.room:room-compiler:2.4.1")
 
-    implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.github.jd-alexander:library:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
 
