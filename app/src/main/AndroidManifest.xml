@@ -6,6 +6,7 @@
         android:name="com.example.com.locationmap.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -18,6 +19,8 @@
         android:name="com.google.android.maps.v2.API_KEY"
         android:value="AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q" />
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,11 +28,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tripaya">
-        <activity
-            android:name=".MapActivity"
-            android:exported="false" >
 
-        </activity>
+
+
         <activity
             android:name=".viewmodel.LoginActivity"
             android:exported="true" />
@@ -52,6 +53,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q" />
+
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+
     </application>
 
 </manifest>

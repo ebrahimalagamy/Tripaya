@@ -48,6 +48,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private AddTripViewModel addTripViewModel;
+    public static String locationLatLng;
 
     public static final String ID = "com.example.tripaya.id";
     public static final String NAME = "com.example.tripaya.name";
@@ -189,7 +190,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             // if operation success initialize places
@@ -202,11 +203,11 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             }
 
             //set location name
-            String location = String.format("Location Address : %s", place.getName());
+             String location = String.format("Location Address : %s", place.getName());
             Toast.makeText(getApplicationContext(), location, Toast.LENGTH_SHORT).show();
             // set latitude and longitude
-            String latLong = String.valueOf(place.getLatLng());
-            Toast.makeText(getApplicationContext(), latLong, Toast.LENGTH_SHORT).show();
+            locationLatLng = String.valueOf(place.getLatLng());
+            Toast.makeText(getApplicationContext(), locationLatLng, Toast.LENGTH_SHORT).show();
 
 
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
@@ -216,6 +217,8 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
 
         }
     }
+
+
 
     private void initComponent() {
         imageButtonCalender = findViewById(R.id.image_button_calender);

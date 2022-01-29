@@ -20,8 +20,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tripaya.AddTripActivity;
 import com.example.tripaya.R;
 import com.example.tripaya.roomdatabase.TripClass;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
 
 import java.util.ArrayList;
 import java.util.List;
