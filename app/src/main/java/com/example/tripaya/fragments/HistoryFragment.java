@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import com.example.tripaya.R;
 import com.example.tripaya.fragments.helpers.DataParser;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,10 +36,10 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class HistoryFragment extends Fragment implements OnMapReadyCallback{
+public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    ArrayList markerPoints= new ArrayList();
+    ArrayList markerPoints = new ArrayList();
 
 
 /*    LatLng locationS = new LatLng(22.56452, 46.123213);
@@ -50,7 +52,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment_history, container, false);
+        view = inflater.inflate(R.layout.fragment_history, container, false);
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -62,14 +64,12 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback{
     }
 
 
-
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
         mMap = googleMap;
 
-       // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16));
+        // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -141,7 +141,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback{
                 String output = "json";
 
                 // Building the url to the web service
-                String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters +"&key=" +"AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q";
+                String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + "AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q";
 
 
                 return url;
@@ -225,17 +225,17 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback{
 
             try {
                 jObject = new JSONObject(jsonData[0]);
-                Log.d("ParserTask",jsonData[0].toString());
+                Log.d("ParserTask", jsonData[0].toString());
                 DataParser parser = new DataParser();
                 Log.d("ParserTask", parser.toString());
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
-                Log.d("ParserTask","Executing routes");
-                Log.d("ParserTask",routes.toString());
+                Log.d("ParserTask", "Executing routes");
+                Log.d("ParserTask", routes.toString());
 
             } catch (Exception e) {
-                Log.d("ParserTask",e.toString());
+                Log.d("ParserTask", e.toString());
                 e.printStackTrace();
             }
             return routes;
@@ -271,20 +271,18 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback{
                 lineOptions.width(10);
                 lineOptions.color(Color.RED);
 
-                Log.d("onPostExecute","onPostExecute lineoptions decoded");
+                Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 
             }
 
             // Drawing polyline in the Google Map for the i-th route
-            if(lineOptions != null) {
+            if (lineOptions != null) {
                 mMap.addPolyline(lineOptions);
-            }
-            else {
-                Log.d("onPostExecute","without Polylines drawn");
+            } else {
+                Log.d("onPostExecute", "without Polylines drawn");
             }
         }
     }
-
 
 
 }
