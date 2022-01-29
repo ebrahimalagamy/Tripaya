@@ -9,19 +9,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
-
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.tripaya.R;
-
 import com.example.tripaya.viewmodel.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,17 +27,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-import com.google.firebase.FirebaseApp;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
+public class ProfileFragment extends Fragment implements
+        ActivityCompat.OnRequestPermissionsResultCallback {
 
-public class ProfileFragment extends Fragment implements  ActivityCompat.OnRequestPermissionsResultCallback{
-    TextView userName_field,gmail_field;
+    TextView userName_field, gmail_field;
     CircleImageView profile_image;
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mRef;
     private FirebaseUser mUser;
-    String profileImageUrl,UserName,UserEmail;
+    String profileImageUrl, UserName, UserEmail;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -54,21 +51,23 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
         return inflater.inflate(R.layout.fragment_profile, container, false);
 
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
+
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        userName_field=view.findViewById(R.id.userName_field);
-        gmail_field=view.findViewById(R.id.gmail_field);
-        profile_image=view.findViewById(R.id.profile_image);
+        userName_field = view.findViewById(R.id.userName_field);
+        gmail_field = view.findViewById(R.id.gmail_field);
+        profile_image = view.findViewById(R.id.profile_image);
         //firebaseRef
-        mFirebaseAuth=FirebaseAuth.getInstance();
-        mUser=mFirebaseAuth.getCurrentUser();
-        mRef= FirebaseDatabase.getInstance().getReference().child("Users");
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mUser = mFirebaseAuth.getCurrentUser();
+        mRef = FirebaseDatabase.getInstance().getReference().child("Users");
     }
 
     @Override
@@ -76,20 +75,17 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
         getActivity().setTitle("Profile");
         super.onStart();
 
-        if(mUser==null)
-        {
+        if (mUser == null) {
             SendUserToLoginActivity();
-        }
-        else {
+        } else {
 
             mRef.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.exists())
-                    {
-                        profileImageUrl=snapshot.child("imageURL").getValue().toString();
-                        UserName=snapshot.child("username").getValue().toString();
-                        UserEmail=snapshot.child("email").getValue().toString();
+                    if (snapshot.exists()) {
+                        profileImageUrl = snapshot.child("imageURL").getValue().toString();
+                        UserName = snapshot.child("username").getValue().toString();
+                        UserEmail = snapshot.child("email").getValue().toString();
                         Picasso.get().load(profileImageUrl).into(profile_image);
                         userName_field.setText(UserName);
                         gmail_field.setText(UserEmail);
@@ -102,25 +98,26 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
             });
         }
     }
-    private  void SendUserToLoginActivity(){
-        Intent intent =new Intent(getContext(),LoginActivity.class);
+
+    private void SendUserToLoginActivity() {
+        Intent intent = new Intent(getContext(), LoginActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        MenuInflater inflater1= getActivity().getMenuInflater();
-        inflater1.inflate(R.menu.menu,menu);
+        MenuInflater inflater1 = getActivity().getMenuInflater();
+        inflater1.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()==R.id.logout ) {
-                  mFirebaseAuth.signOut();
-                  Intent intent = new Intent(getContext(), LoginActivity.class);
-                  startActivity(intent);
-            Activity activity=this.getActivity();
+        if (item.getItemId() == R.id.logout) {
+            mFirebaseAuth.signOut();
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            Activity activity = this.getActivity();
             Toast.makeText(activity, "Logged out", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);

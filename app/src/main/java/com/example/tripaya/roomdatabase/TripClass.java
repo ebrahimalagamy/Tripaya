@@ -3,12 +3,15 @@ package com.example.tripaya.roomdatabase;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "trip_table")
-public class TripClass {
+public class TripClass implements Serializable {
+
     // room create columns for this fields
     // table need primaryKey to be unique
     // for every row creation will take autoGenerate id
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     private int id;
 
     private String tripName;
@@ -23,9 +26,11 @@ public class TripClass {
     private String roundTime;*/
 
 
+    public TripClass() {
+    }
 
     public TripClass(String tripName, String startPoint, String endPoint, String date,
-                     String time, String tripType, String tripStatus,String note) {
+                     String time, String tripType, String tripStatus, String note) {
         this.tripName = tripName;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
@@ -75,4 +80,37 @@ public class TripClass {
     public String getNote() {
         return note;
     }
+
+    public void setTripName(String tripName) {
+        this.tripName = tripName;
+    }
+
+    public void setStartPoint(String startPoint) {
+        this.startPoint = startPoint;
+    }
+
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setTripType(String tripType) {
+        this.tripType = tripType;
+    }
+
+    public void setTripStatus(String tripStatus) {
+        this.tripStatus = tripStatus;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
 }

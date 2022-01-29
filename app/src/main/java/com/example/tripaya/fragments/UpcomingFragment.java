@@ -23,6 +23,8 @@ import com.example.tripaya.R;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.viewmodel.TripViewModel;
 
+import java.util.List;
+
 public class UpcomingFragment extends Fragment {
     private RecyclerView recyclerViewTrip;
     //create object of viewModel
@@ -65,6 +67,10 @@ public class UpcomingFragment extends Fragment {
         tripViewModel = new ViewModelProvider(getActivity()).get(TripViewModel.class);
         // this method observe the data if any thing change
         tripViewModel.getAllTrips().observe(getActivity(), tripClasses -> {
+
+            if (tripClasses.isEmpty()) {
+                tripViewModel.setFireBaseWords();
+            }
             // onChanged is called when the activity on the foreground
             //update recycler view
             tripAdapter.setTrips(tripClasses);
@@ -104,8 +110,10 @@ public class UpcomingFragment extends Fragment {
             startActivity(intent);
 
         });
+        tripAdapter.onStatesChangeListner(tripClass -> {
+            tripViewModel.update(tripClass);
+        });
     }
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         MenuInflater menuInflater = getActivity().getMenuInflater();

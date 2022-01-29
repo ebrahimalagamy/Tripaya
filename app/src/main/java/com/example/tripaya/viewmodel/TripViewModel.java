@@ -17,29 +17,29 @@ public class TripViewModel extends AndroidViewModel {
     private TripRepository tripRepository;
     private LiveData<List<TripClass>> allTrips;
 
-
     public TripViewModel(@NonNull Application application) {
         super(application);
         tripRepository = new TripRepository(application);
         allTrips = tripRepository.getAllTrips();
     }
-
     // user interface deal with viewModel not Repo so that from Repo object
     // will arrive to all operation
-
-    public void insert(TripClass tripClass){
+    public void insert(TripClass tripClass) {
         tripRepository.insert(tripClass);
     }
-    public void update(TripClass tripClass){
+    public void update(TripClass tripClass) {
         tripRepository.update(tripClass);
     }
-    public void delete(TripClass tripClass){
+    public void delete(TripClass tripClass) {
         tripRepository.delete(tripClass);
     }
-    public void deleteAllTrips(){
+    public void deleteAllTrips() {
         tripRepository.deleteAllTrips();
     }
-    public LiveData<List<TripClass>> getAllTrips(){
+    public LiveData<List<TripClass>> getAllTrips() {
         return allTrips;
+    }
+    public void setFireBaseWords() {
+        tripRepository.getFireData();
     }
 }
