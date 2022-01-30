@@ -15,14 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.tripaya.R;
+
 import com.example.tripaya.viewmodel.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,13 +48,9 @@ import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileFragment extends Fragment implements
-        ActivityCompat.OnRequestPermissionsResultCallback {
-
 public class ProfileFragment extends Fragment implements  ActivityCompat.OnRequestPermissionsResultCallback{
     static String Tag="gg";
     TextView userName_field,gmail_field;
-    TextView userName_field, gmail_field;
     CircleImageView profile_image;
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mRef;
@@ -60,13 +59,11 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
     private Uri profileUri;
     private StorageReference storageReference;
     String profileImageUrl,UserName,UserEmail;
-     SharedPreferences sharedPreferences;
-     private static final String SHARED_PREFERENCES_NAME="myPref";
+    SharedPreferences sharedPreferences;
+    private static final String SHARED_PREFERENCES_NAME="myPref";
     private static final String KEY_NAME="name";
     private static final String KEY_EMAIL="email";
     private static final String KEY_PHOTO="photo";
-
-    String profileImageUrl, UserName, UserEmail;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -79,13 +76,11 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
         return inflater.inflate(R.layout.fragment_profile, container, false);
 
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
@@ -113,14 +108,6 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent,123);
-
-        userName_field = view.findViewById(R.id.userName_field);
-        gmail_field = view.findViewById(R.id.gmail_field);
-        profile_image = view.findViewById(R.id.profile_image);
-        //firebaseRef
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mUser = mFirebaseAuth.getCurrentUser();
-        mRef = FirebaseDatabase.getInstance().getReference().child("Users");
     }
 
     @Override
@@ -128,7 +115,7 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
         super.onActivityResult(requestCode, resultCode, data);
         Log.i(Tag, "onActivityResult: ");
         if( data.getData()!=null){
-             profileUri =data.getData();
+            profileUri =data.getData();
             profile_image.setImageURI(profileUri);
             Log.i(Tag, "onActivityResult: ");
             uploadPicture();
@@ -138,27 +125,28 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
         final ProgressDialog pd=new ProgressDialog(getContext());
         pd.setTitle("Uploading Image...");
         pd.show();
-         final String randomKey= UUID.randomUUID().toString();
+        final String randomKey= UUID.randomUUID().toString();
         StorageReference riversRef = storageReference.child("images/"+ randomKey);
-         riversRef.putFile(profileUri)
-                 .addOnSuccessListener(taskSnapshot -> {
-                     pd.dismiss();
-                     Toast.makeText(getContext(), "Image Uploaded", Toast.LENGTH_SHORT).show();
-                 })
-              .addOnFailureListener(e -> {
-                  pd.dismiss();
-                  Toast.makeText(getContext(), "Failed To Upload", Toast.LENGTH_SHORT).show();
-              }).addOnProgressListener(snapshot -> {
-                  double progressPercent =(100.00 * snapshot.getBytesTransferred()/ snapshot.getTotalByteCount());
-                  pd.setMessage("Progress : " + (int) progressPercent + "%");
-              });
+        riversRef.putFile(profileUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    pd.dismiss();
+                    Toast.makeText(getContext(), "Image Uploaded", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    pd.dismiss();
+                    Toast.makeText(getContext(), "Failed To Upload", Toast.LENGTH_SHORT).show();
+                }).addOnProgressListener(snapshot -> {
+            double progressPercent =(100.00 * snapshot.getBytesTransferred()/ snapshot.getTotalByteCount());
+            pd.setMessage("Progress : " + (int) progressPercent + "%");
+        });
     }
     @Override
     public void onStart() {
         getActivity().setTitle("Profile");
         super.onStart();
 
-        if (mUser == null) {
+        if(mUser==null)
+        {
             SendUserToLoginActivity();
         }
         else {
@@ -179,20 +167,9 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
                         String email= sharedPreferences.getString(KEY_EMAIL,null);
                         String photo= sharedPreferences.getString(KEY_PHOTO,null);
                         if(name!=null||email!=null||photo!=null){
-                        Picasso.get().load(profileUri).into(profile_image);
-
-        } else {
-
-            mRef.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        profileImageUrl = snapshot.child("imageURL").getValue().toString();
-                        UserName = snapshot.child("username").getValue().toString();
-                        UserEmail = snapshot.child("email").getValue().toString();
-                        Picasso.get().load(profileImageUrl).into(profile_image);
-                        userName_field.setText(UserName);
-                        gmail_field.setText(UserEmail);}
+                            Picasso.get().load(profileUri).into(profile_image);
+                            userName_field.setText(UserName);
+                            gmail_field.setText(UserEmail);}
                     }
                 }
                 @Override
@@ -201,24 +178,23 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
             });
         }
     }
-
-    private void SendUserToLoginActivity() {
-        Intent intent = new Intent(getContext(), LoginActivity.class);
+    private  void SendUserToLoginActivity(){
+        Intent intent =new Intent(getContext(),LoginActivity.class);
         startActivity(intent);
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        MenuInflater inflater1 = getActivity().getMenuInflater();
-        inflater1.inflate(R.menu.menu, menu);
+        MenuInflater inflater1= getActivity().getMenuInflater();
+        inflater1.inflate(R.menu.menu,menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
+        if (item.getItemId()==R.id.logout ) {
             mFirebaseAuth.signOut();
             Intent intent = new Intent(getContext(), LoginActivity.class);
             startActivity(intent);
-            Activity activity = this.getActivity();
+            Activity activity=this.getActivity();
             Toast.makeText(activity, "Logged out", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
