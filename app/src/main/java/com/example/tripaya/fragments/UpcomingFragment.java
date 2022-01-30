@@ -23,8 +23,6 @@ import com.example.tripaya.R;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.viewmodel.TripViewModel;
 
-import java.util.List;
-
 public class UpcomingFragment extends Fragment {
     private RecyclerView recyclerViewTrip;
     //create object of viewModel
@@ -69,7 +67,7 @@ public class UpcomingFragment extends Fragment {
         tripViewModel.getAllTrips().observe(getActivity(), tripClasses -> {
 
             if (tripClasses.isEmpty()) {
-                tripViewModel.setFireBaseWords();
+                tripViewModel.setFireBaseTrips();
             }
             // onChanged is called when the activity on the foreground
             //update recycler view

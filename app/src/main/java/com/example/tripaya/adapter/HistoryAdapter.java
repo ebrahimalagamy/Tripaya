@@ -15,45 +15,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.SavedStateViewModelFactory;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripaya.R;
 import com.example.tripaya.roomdatabase.TripClass;
-import com.example.tripaya.roomdatabase.TripDao;
-import com.example.tripaya.viewmodel.AddTripViewModel;
-import com.example.tripaya.viewmodel.TripViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.TripHolder> {
     private List<TripClass> trips = new ArrayList<>();
-    private OnItemClickListener listener;
-    private status status;
+    private TripAdapter.OnItemClickListener listener;
+    private TripAdapter.status status;
     private Context context;
 
-
-    public TripAdapter(Context context) {
+    public HistoryAdapter(Context context) {
         this.context = context;
     }
 
-    public TripAdapter() {
+    public HistoryAdapter() {
     }
 
 
     @NonNull
     @Override
-    public TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trip, parent, false);
+    public HistoryAdapter.TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trip_history, parent, false);
 
 
-        return new TripHolder(view);
+        return new HistoryAdapter.TripHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TripHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HistoryAdapter.TripHolder holder, int position) {
         // this take care to take the data from single node into views in tripHolder
         TripClass tripClass = trips.get(position);
         holder.tripName.setText(tripClass.getTripName());
@@ -85,38 +79,21 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
                 }
             }
         });
-
-
-        holder.tripNotes.setOnClickListener(v -> {
-
-            Dialog dialog = new Dialog(v.getContext());
-            dialog.setContentView(R.layout.show_notes_dialog);
-            int width = WindowManager.LayoutParams.MATCH_PARENT;
-            int height = WindowManager.LayoutParams.WRAP_CONTENT;
-            dialog.getWindow().setLayout(width, height);
-            dialog.show();
-
-            TextView textView = dialog.findViewById(R.id.tv_notes);
-            textView.setText(tripClass.getNote());
-            Toast.makeText(v.getContext(), "Notes", Toast.LENGTH_SHORT).show();
-        });
-
         holder.itemOption.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.itemOption);
-            popupMenu.inflate(R.menu.item_option);
+            popupMenu.inflate(R.menu.item_option_history);
 
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
-                    case R.id.menu_item_start:
-                        Toast.makeText(v.getContext(), "Started", Toast.LENGTH_SHORT).show();
-                        break;
                     case R.id.menu_item_cancel:
-                         tripClass.setTripStatus("cancel");
-                         status.onStatusChanged(tripClass);
-                        // update(tripClass);
-                        // holder.tripTime.setText("Cancel");
-
-                        Toast.makeText(v.getContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                        Dialog dialog = new Dialog(v.getContext());
+                        dialog.setContentView(R.layout.show_notes_dialog);
+                        int width = WindowManager.LayoutParams.MATCH_PARENT;
+                        int height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        dialog.getWindow().setLayout(width, height);
+                        dialog.show();
+                        TextView textView = dialog.findViewById(R.id.tv_notes);
+                        textView.setText(tripClass.getNote());
                         break;
                     default:
                         break;
@@ -126,7 +103,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             popupMenu.show();
         });
     }
-
 
 
     @Override
@@ -156,9 +132,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         private TextView tripDate;
         private TextView tripTime;
         private TextView tripType;
-        private ImageButton itemOption, imageButton;
+        private ImageButton itemOption,imageButton;
         private TextView tripStatus;
-        private ImageButton tripNotes;
 
         public TripHolder(@NonNull View itemView) {
             super(itemView);
@@ -168,10 +143,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             tripDate = itemView.findViewById(R.id.tv_date_picker);
             tripTime = itemView.findViewById(R.id.tv_time_picker);
             tripType = itemView.findViewById(R.id.tv_trip_type);
-            itemOption = itemView.findViewById(R.id.image_button_option);
             tripStatus = itemView.findViewById(R.id.tv_status);
             imageButton = itemView.findViewById(R.id.imageButton2);
-            tripNotes = itemView.findViewById(R.id.image_button_notes);
+            itemOption = itemView.findViewById(R.id.image_button_option);
 
             itemView.setOnClickListener(view -> {
                 // we need get the position of the item clicked
@@ -183,19 +157,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         }
     }
 
-    public interface status {
-        void onStatusChanged(TripClass tripClass);
-    }
-    public void onStatesChangeListner(status status)
-    {
-        this.status = status;
-    }
-
     public interface OnItemClickListener {
         void onItemClick(TripClass tripClass);
     }
 
-    public void OnItemClickListener(OnItemClickListener listener) {
+    public void OnItemClickListener(TripAdapter.OnItemClickListener listener) {
         this.listener = listener;
     }
 }

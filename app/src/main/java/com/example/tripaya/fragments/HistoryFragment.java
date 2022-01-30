@@ -6,14 +6,26 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripaya.R;
+import com.example.tripaya.adapter.HistoryAdapter;
+import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.fragments.helpers.DataParser;
+import com.example.tripaya.viewmodel.HistoryViewModel;
+import com.example.tripaya.viewmodel.TripViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,35 +46,81 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
 public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
+    private RecyclerView recyclerViewHistory;
+    //create object of viewModel
+    private HistoryViewModel historyViewModel;
     private GoogleMap mMap;
     ArrayList markerPoints = new ArrayList();
-
-
 /*    LatLng locationS = new LatLng(22.56452, 46.123213);
 
     LatLng locationE = new LatLng(24.56452, 48.123213);*/
-
-
     View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
-
-
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.mapFragmentId);
         mapFragment.getMapAsync(this);
-
-
+        initComponent();
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setHasOptionsMenu(true);
+        initRecycler();
+    }
+    private void initComponent() {
+        recyclerViewHistory = view.findViewById(R.id.recycler_view_history);
+    }
+
+    private void initRecycler() {
+        // initialize recycler view with TripAdapter
+        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewHistory.setHasFixedSize(true);
+        HistoryAdapter tripAdapter = new HistoryAdapter();
+        recyclerViewHistory.setAdapter(tripAdapter);
+
+        historyViewModel = new ViewModelProvider(getActivity()).get(HistoryViewModel.class);
+        // this method observe the data if any thing change
+        historyViewModel.getAllTripsCompleted().observe(getActivity(), tripClasses -> {
+
+           if (tripClasses.isEmpty()) {
+                historyViewModel.setFireCompleted();
+            }
+            // onChanged is called when the activity on the foreground
+            //update recycler view
+            tripAdapter.setTrips(tripClasses);
+        });
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT |
+                        ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // to getPosition of the item and delete it
+                // if we want delete the item inside viewModel we need the item not position of the item
+                // we set method return position depend on the position in the adapter
+                historyViewModel.delete(tripAdapter.getTripAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(getActivity(), "Trip Deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(recyclerViewHistory);
+
+    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.upcoming_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -149,8 +207,6 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         });
 
     }
-
-
     private class FetchUrl extends AsyncTask<String, Void, String> {
 
         @Override
@@ -178,8 +234,6 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
         }
     }
-
-
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
@@ -212,8 +266,6 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         }
         return data;
     }
-
-
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
 
         // Parsing the data in non-ui thread
@@ -283,7 +335,5 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-
-
 }
 

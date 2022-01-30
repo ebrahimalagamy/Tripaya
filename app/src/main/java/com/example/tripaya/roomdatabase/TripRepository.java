@@ -24,9 +24,10 @@ import java.util.Set;
 public class TripRepository {
     private TripDao tripDao;
     private LiveData<List<TripClass>> getAllTrips;
+    private LiveData<List<TripClass>> getAllTripsCompleted;
     private List<TripClass> getTrips;
     private final MutableLiveData<List<TripClass>> firebaseTrips;
-    public int size =0;
+    public int size = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Trips");
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -38,7 +39,8 @@ public class TripRepository {
         // tripDao() is abstract in TripDatabase class
         tripDao = tripDatabase.tripDao();
         getAllTrips = tripDao.getAllNewTrips();
-       // getTrips = tripDao.getTrips();
+        getAllTripsCompleted = tripDao.getAllTripsCompleted();
+        // getTrips = tripDao.getTrips();
         firebaseTrips = new MutableLiveData<>();
         FireBase();
     }
@@ -123,9 +125,46 @@ public class TripRepository {
         });
     }
 
+    public void getFireDataCompleted() {
+        myRef.child(Uid).child("UserTrips").child("tripStatus").equalTo("cancel")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ArrayList<TripClass> trip = new ArrayList<>();
+                        //       allWords = wordsDao.getAllWords();
+                        //if (allWords.getValue() != null)
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                TripClass tripClass = dataSnapshot1.getValue(TripClass.class);
+                                trip.add(tripClass);
+                                // FireList.add(word);
+                            }
+                            Set<TripClass> set = new LinkedHashSet<>();
+                            set.addAll(trip);
+                            trip.clear();
+                            trip.addAll(set);
+                            for (int i = 0; i < trip.size(); i++) {
+                                insert2(trip.get(i));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+
     public LiveData<List<TripClass>> getAllTrips() {
         return getAllTrips;
     }
+
+    public LiveData<List<TripClass>> getAllTripsCompleted() {
+        return getAllTripsCompleted;
+    }
+
     public List<TripClass> getTrips() {
         return getTrips;
     }

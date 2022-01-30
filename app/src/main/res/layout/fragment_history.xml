@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/content"
     tools:context=".fragments.HistoryFragment">
-
 
 
     <fragment
@@ -15,7 +13,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"/>
+        android:layout_weight="1.5" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,14 +22,11 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_trip"
+            android:id="@+id/recycler_view_history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_trip_history">
         </androidx.recyclerview.widget.RecyclerView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

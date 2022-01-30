@@ -35,6 +35,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AddTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener
@@ -51,6 +52,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     private RadioButton radioButton;
     private AddTripViewModel addTripViewModel;
     public static String locationLatLng;
+    Calendar date = Calendar.getInstance();
 
     public static final String ID = "com.example.tripaya.id";
     public static final String NAME = "com.example.tripaya.name";
@@ -69,6 +71,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
+        date.setTime(new Date());
 
 
         initComponent();
@@ -162,7 +165,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         String tripName = etTripName.getText().toString().trim();
         String tripStartPoint = etStartPoint.getText().toString().trim();
         String tripEndPoint = etEndPoint.getText().toString().trim();
-        String tripDate = tvDate.getText().toString().trim();
+        String tripDate = date.getTime().toString();
         String tripTime = tvTime.getText().toString().trim();
         String tripNotes = etNotes.getText().toString().trim();
         //String tripStatus = tvStatus.getText().toString().trim();
@@ -197,7 +200,6 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
 
             }
         });
-
 
         tripClass.setTripName(tripName);
         tripClass.setStartPoint(tripStartPoint);
@@ -248,8 +250,6 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         }
     }
 
-
-
     private void initComponent() {
         imageButtonCalender = findViewById(R.id.image_button_calender);
         imageButtonTime = findViewById(R.id.image_button_time);
@@ -269,11 +269,13 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     // this method to set date
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
+        /*Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
+
+        date.set(year,month,dayOfMonth);
+        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date.getTime());
         tvDate.setText(dateFormat);
 
     }
@@ -281,6 +283,12 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     // this method to set time
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        date.set(Calendar.HOUR,hour);
+        date.set(Calendar.MINUTE,minute);
         tvTime.setText(hour + " : " + minute);
+        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date.getTime());
+        tvDate.setText(dateFormat);
+        Log.i("TAG", "onTimeSet: "+date.getTime());
+
     }
 }
