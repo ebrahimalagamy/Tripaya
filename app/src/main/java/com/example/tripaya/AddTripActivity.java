@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tripaya.datapicker.DatePickerFragment;
@@ -33,6 +35,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AddTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener
@@ -41,13 +44,15 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     private static final int REQUEST_CODE = 100;
     private static final String API_KEY = "AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q";
     private ImageButton imageButtonCalender, imageButtonTime;
-    private TextView tvDate, tvTime,tvStatus;
-    private EditText etStartPoint, etEndPoint, etTripName,etNotes;
+    private TextView tvDate, tvTime, tvStatus;
+    private EditText etStartPoint, etEndPoint, etTripName, etNotes;
     private int switchTagEditText = -1;
-    private Button btnSaveTrip,btnStartTrip;
+    private Button btnSaveTrip, btnStartTrip;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private AddTripViewModel addTripViewModel;
+    public static String locationLatLng;
+    Calendar date = Calendar.getInstance();
 
     public static final String ID = "com.example.tripaya.id";
     public static final String NAME = "com.example.tripaya.name";
@@ -56,7 +61,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     public static final String DATE = "com.example.tripaya.date";
     public static final String TIME = "com.example.tripaya.time";
     public static final String NOTE = "com.example.tripaya.note";
-   // public static final String TYPE = "com.example.tripaya.type";
+    // public static final String TYPE = "com.example.tripaya.type";
 
     private String tripType;
     private boolean editMode;
@@ -66,6 +71,8 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
+        date.setTime(new Date());
+
 
         initComponent();
         initListener();
@@ -90,7 +97,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             tvTime.setText(intent.getStringExtra(TIME));
             etNotes.setText(intent.getStringExtra(NOTE));
 
-           // radioButton.setText(intent.getStringExtra(TYPE));
+            // radioButton.setText(intent.getStringExtra(TYPE));
         } else {
             // add trip
             setTitle("Add Trip");
@@ -158,19 +165,52 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         String tripName = etTripName.getText().toString().trim();
         String tripStartPoint = etStartPoint.getText().toString().trim();
         String tripEndPoint = etEndPoint.getText().toString().trim();
-        String tripDate = tvDate.getText().toString().trim();
+        String tripDate = date.getTime().toString();
         String tripTime = tvTime.getText().toString().trim();
         String tripNotes = etNotes.getText().toString().trim();
-
         //String tripStatus = tvStatus.getText().toString().trim();
 
         int tripPosition = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(tripPosition);
         tripType = radioButton.getText().toString().trim();
 
-        TripClass tripClass = new TripClass(tripName, tripStartPoint, tripEndPoint, tripDate,
-                tripTime, tripType,"Upcoming",tripNotes);
+        TripClass tripClass = new TripClass();
+        addTripViewModel.getAllTrips().observe(this, new Observer<List<TripClass>>() {
+            @Override
+            public void onChanged(List<TripClass> tripClasses) {
+                if(tripClasses.isEmpty())
+                {
+                    tripClass.setId(1);
+                }else{
+                    tripClass.setId(tripClasses.size()+1);
+                }
+                if (editMode) {
+                    tripClass.setId(mId);
+                    addTripViewModel.update(tripClass);
+                } else {
+                    if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
+                            tripTime.isEmpty() || tripType.isEmpty()) {
+                        addTripViewModel.getAllTrips().removeObserver(this);
+                        return;
+                    }
+                    addTripViewModel.insert(tripClass);
+                }
+                finish();
+                addTripViewModel.getAllTrips().removeObserver(this);
 
+            }
+        });
+
+        tripClass.setTripName(tripName);
+        tripClass.setStartPoint(tripStartPoint);
+        tripClass.setEndPoint(tripEndPoint);
+        tripClass.setDate(tripDate);
+        tripClass.setTime(tripTime);
+        tripClass.setTripType(tripType);
+        tripClass.setTripStatus("Upcoming");
+        tripClass.setNote(tripNotes);
+
+        Log.e("addTripActivity", "Trip ID: "+tripClass.getId());
         if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
                 tripTime.isEmpty() || tripType.isEmpty()) {
             Toast.makeText(this, "Please Enter All the Information", Toast.LENGTH_SHORT).show();
@@ -178,18 +218,11 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         }
         // insert trip in database and close this activity
 
-        if (editMode) {
-            tripClass.setId(mId);
-            addTripViewModel.update(tripClass);
-        } else {
-            addTripViewModel.insert(tripClass);
-        }
 
-        finish();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             // if operation success initialize places
@@ -202,11 +235,11 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             }
 
             //set location name
-            String location = String.format("Location Address : %s", place.getName());
+             String location = String.format("Location Address : %s", place.getName());
             Toast.makeText(getApplicationContext(), location, Toast.LENGTH_SHORT).show();
             // set latitude and longitude
-            String latLong = String.valueOf(place.getLatLng());
-            Toast.makeText(getApplicationContext(), latLong, Toast.LENGTH_SHORT).show();
+            locationLatLng = String.valueOf(place.getLatLng());
+            Toast.makeText(getApplicationContext(), locationLatLng, Toast.LENGTH_SHORT).show();
 
 
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
@@ -230,19 +263,19 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         tvStatus = findViewById(R.id.tv_status);
         btnStartTrip = findViewById(R.id.btnStart);
         etNotes = findViewById(R.id.et_notes);
-
         // to get button checked
-
-
     }
+
     // this method to set date
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
+        /*Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
+
+        date.set(year,month,dayOfMonth);
+        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date.getTime());
         tvDate.setText(dateFormat);
 
     }
@@ -250,6 +283,12 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     // this method to set time
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        date.set(Calendar.HOUR,hour);
+        date.set(Calendar.MINUTE,minute);
         tvTime.setText(hour + " : " + minute);
+        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date.getTime());
+        tvDate.setText(dateFormat);
+        Log.i("TAG", "onTimeSet: "+date.getTime());
+
     }
 }

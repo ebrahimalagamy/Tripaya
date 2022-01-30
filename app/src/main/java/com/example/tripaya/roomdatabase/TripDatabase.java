@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 
-@Database(entities = {TripClass.class}, version = 3)
+@Database(entities = {TripClass.class}, version = 5)
 public abstract class TripDatabase extends RoomDatabase {
 
     // create singleton class for database
@@ -54,12 +54,12 @@ public abstract class TripDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            tripDao.insert(new TripClass("mansoura","zagaiag","mansoura",
+        /*    tripDao.insert(new TripClass("mansoura","zagaiag","mansoura",
                     "15-10","12.30","round","Upcoming","No notes"));
             tripDao.insert(new TripClass("salhia","zagaiag","mansoura",
                     "15-10","12.30","round","Upcoming","No notes"));
             tripDao.insert(new TripClass("cairo","zagaiag","mansoura",
-                    "15-10","12.30","round","Upcoming","No notes"));
+                    "15-10","12.30","round","Upcoming","No notes"));*/
             return null;
         }
     }

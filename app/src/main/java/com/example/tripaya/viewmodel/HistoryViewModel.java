@@ -11,36 +11,36 @@ import com.example.tripaya.roomdatabase.TripRepository;
 
 import java.util.List;
 
-// create viewModel to connect between Repo and user interface
-// and hold liveData
-public class TripViewModel extends AndroidViewModel {
-    private TripRepository tripRepository;
-    private LiveData<List<TripClass>> allTrips;
+public class HistoryViewModel extends AndroidViewModel {
 
-    public TripViewModel(@NonNull Application application) {
+    private TripRepository tripRepository;
+    private LiveData<List<TripClass>> allTripsCompleted;
+
+
+    public HistoryViewModel(@NonNull Application application) {
         super(application);
         tripRepository = new TripRepository(application);
-        allTrips = tripRepository.getAllTrips();
+        allTripsCompleted = tripRepository.getAllTripsCompleted();
+
     }
+
     // user interface deal with viewModel not Repo so that from Repo object
     // will arrive to all operation
+
     public void insert(TripClass tripClass) {
         tripRepository.insert(tripClass);
     }
-    public void update(TripClass tripClass) {
-        tripRepository.update(tripClass);
-    }
+
     public void delete(TripClass tripClass) {
         tripRepository.delete(tripClass);
     }
-    public void deleteAllTrips() {
-        tripRepository.deleteAllTrips();
-    }
-    public LiveData<List<TripClass>> getAllTrips() {
-        return allTrips;
+
+    public LiveData<List<TripClass>> getAllTripsCompleted() {
+        return allTripsCompleted;
     }
 
-    public void setFireBaseTrips() {
-        tripRepository.getFireData();
+    public void setFireCompleted() {
+        tripRepository.getFireDataCompleted();
     }
+
 }
