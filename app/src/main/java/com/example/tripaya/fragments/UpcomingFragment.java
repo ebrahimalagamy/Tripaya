@@ -31,8 +31,7 @@ import com.example.tripaya.R;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.TripViewModel;
-<<<<<<< Updated upstream
-=======
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
@@ -43,7 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.siddharthks.bubbles.FloatingBubblePermissions;
->>>>>>> Stashed changes
+
 
 public class UpcomingFragment extends Fragment {
     private RecyclerView recyclerViewTrip;
@@ -69,6 +68,7 @@ public class UpcomingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         initRecycler();
+      FloatingBubblePermissions.startPermissionRequest(getActivity());
     }
 
     @Override

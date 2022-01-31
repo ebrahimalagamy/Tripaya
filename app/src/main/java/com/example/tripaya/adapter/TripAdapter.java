@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -24,12 +25,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripaya.R;
+import com.example.tripaya.SimpleService;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.roomdatabase.TripDao;
 import com.example.tripaya.viewmodel.AddTripViewModel;
 import com.example.tripaya.viewmodel.TripViewModel;
-<<<<<<< Updated upstream
-=======
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,7 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.siddharthks.bubbles.FloatingBubblePermissions;
->>>>>>> Stashed changes
+
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -75,11 +76,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
     public TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trip, parent, false);
 
-<<<<<<< Updated upstream
-=======
         client = LocationServices.getFusedLocationProviderClient(context);
-
->>>>>>> Stashed changes
 
         return new TripHolder(view);
     }
@@ -102,6 +99,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
 
             String sSource = holder.tripStartPoint.getText().toString().trim();
             String sDestination = holder.tripEndPoint.getText().toString().trim();
+
             if (sSource.equals("") && sDestination.equals("")) {
                 Toast.makeText(v.getContext(), "Please Enter your start and end location", Toast.LENGTH_SHORT).show();
             } else {
@@ -159,12 +157,12 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             });
             popupMenu.show();
         });
-<<<<<<< Updated upstream
-=======
+
 
         holder.btnStartTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 runnable.onItemClick(tripClass);
                 /*if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -197,7 +195,12 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
                 }*/
             }
         });
->>>>>>> Stashed changes
+
+               /*Intent intent= new Intent(context,SimpleService.class);
+               // intent.setPackage("com.example.tripaya.fragments.");
+                context.startService(intent);*/
+            }
+        });
     }
 
 
@@ -232,6 +235,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         private ImageButton itemOption, imageButton;
         private TextView tripStatus;
         private ImageButton tripNotes;
+        private Button btnStartTrip;
 
         public TripHolder(@NonNull View itemView) {
             super(itemView);
@@ -245,6 +249,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             tripStatus = itemView.findViewById(R.id.tv_status);
             imageButton = itemView.findViewById(R.id.imageButton2);
             tripNotes = itemView.findViewById(R.id.image_button_notes);
+            btnStartTrip = itemView.findViewById(R.id.btnStartTrip);
 
             itemView.setOnClickListener(view -> {
                 // we need get the position of the item clicked
@@ -259,6 +264,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
     public interface status {
         void onStatusChanged(TripClass tripClass);
     }
+
     public void onStatesChangeListner(status status)
     {
         this.status = status;
@@ -271,12 +277,10 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
     public void OnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
-<<<<<<< Updated upstream
-=======
+
 
     public interface TimerStarter {
         void startTimer();
     }
 
->>>>>>> Stashed changes
 }

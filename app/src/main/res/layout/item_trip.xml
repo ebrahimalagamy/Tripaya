@@ -118,7 +118,7 @@
             app:srcCompat="@drawable/moree" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnStartTrip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -135,10 +135,10 @@
             android:layout_height="40dp"
             android:background="@null"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="@+id/button"
+            app:layout_constraintBottom_toBottomOf="@+id/btnStartTrip"
             app:layout_constraintEnd_toEndOf="@+id/imageButton2"
             app:layout_constraintStart_toStartOf="@+id/imageButton2"
-            app:layout_constraintTop_toTopOf="@+id/button"
+            app:layout_constraintTop_toTopOf="@+id/btnStartTrip"
             app:srcCompat="@drawable/notes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

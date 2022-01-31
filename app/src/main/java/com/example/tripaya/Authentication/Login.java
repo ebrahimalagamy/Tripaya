@@ -31,6 +31,7 @@ public class Login extends Fragment {
     Button logBtn, goDialog;
     TextView forgotPw, signUp,welcomeMsg;
 
+
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ProgressDialog progressDialog;
     FirebaseAuth mAuth;
@@ -84,7 +85,7 @@ public class Login extends Fragment {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
-    private void initComponent(){
+    private void initComponent() {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         progressDialog = new ProgressDialog(getContext());

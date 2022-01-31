@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 
-@Database(entities = {TripClass.class}, version = 5)
+@Database(entities = {TripClass.class}, version = 6)
 public abstract class TripDatabase extends RoomDatabase {
 
     // create singleton class for database

@@ -10,6 +10,7 @@
         <entry key="..\:/Tripaya/app/src/main/res/layout/fragment_add_trip.xml" value="0.1621376811594203" />
         <entry key="..\:/Tripaya/app/src/main/res/layout/fragment_forgot_password.xml" value="0.1621376811594203" />
         <entry key="..\:/Tripaya/app/src/main/res/layout/fragment_history.xml" value="0.1621376811594203" />
+        <entry key="..\:/Tripaya/app/src/main/res/layout/fragment_login.xml" value="0.18795289855072464" />
         <entry key="..\:/Tripaya/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Tripaya/app/src/main/res/layout/fragment_register.xml" value="0.1621376811594203" />
         <entry key="..\:/Tripaya/app/src/main/res/layout/fragment_upcoming.xml" value="0.1621376811594203" />
@@ -32,6 +33,7 @@
         <entry key="..\:/Users/Ebrah/AndroidStudioProjects/ITI Projects/Tripaya/app/src/main/res/layout/fragment_upcoming.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Ebrah/AndroidStudioProjects/ITI Projects/Tripaya/app/src/main/res/layout/item_trip.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Ebrah/AndroidStudioProjects/ITI Projects/Tripaya/app/src/main/res/layout/item_trip_history.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/Ebrah/AndroidStudioProjects/ITI Projects/Tripaya/app/src/main/res/layout/sample_view.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Ebrah/AndroidStudioProjects/ITI Projects/Tripaya/app/src/main/res/menu/item_option_history.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Ebrah/AndroidStudioProjects/ITI Projects/Tripaya/app/src/main/res/menu/menu.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Ebrah/AndroidStudioProjects/ITI Projects/Tripaya/app/src/main/res/menu/upcoming_menu.xml" value="0.27447916666666666" />
