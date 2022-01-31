@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tripaya.Alert.WorkManagerRepo;
 import com.example.tripaya.datapicker.DatePickerFragment;
 import com.example.tripaya.datapicker.TimePickerFragment;
 import com.example.tripaya.roomdatabase.TripClass;
@@ -199,6 +200,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
                         return;
                     }
                     addTripViewModel.insert(tripClass);
+                //    WorkManagerRepo.setWorkers(this,tripClass);
                 }
                 finish();
                 addTripViewModel.getAllTrips().removeObserver(this);
@@ -216,11 +218,11 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         tripClass.setNote(tripNotes);
 
         Log.e("addTripActivity", "Trip ID: " + tripClass.getId());
-        if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
+      /*  if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
                 tripTime.isEmpty() || tripType.isEmpty()) {
             Toast.makeText(this, "Please Enter All the Information", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         // insert trip in database and close this activity
 
 

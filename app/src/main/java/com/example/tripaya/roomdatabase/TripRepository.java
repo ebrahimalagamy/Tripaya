@@ -72,6 +72,7 @@ public class TripRepository {
     public void insert(TripClass tripClass) {
         new InsertTripAsyncTask(tripDao).execute(tripClass);
         myRef.child(Uid).child("UserTrips").child(String.valueOf(tripClass.getId())).setValue(tripClass);
+
     }
 
     public void insert2(TripClass tripClass) {
