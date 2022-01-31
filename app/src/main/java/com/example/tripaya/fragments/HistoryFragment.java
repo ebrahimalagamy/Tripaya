@@ -95,6 +95,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
             }
             // onChanged is called when the activity on the foreground
             //update recycler view
+
             tripAdapter.setTrips(tripClasses);
         });
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -113,6 +114,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(getActivity(), "Trip Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerViewHistory);
+
 
     }
     @Override

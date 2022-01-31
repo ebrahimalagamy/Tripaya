@@ -22,6 +22,7 @@ import com.example.tripaya.AddTripActivity;
 import com.example.tripaya.R;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.viewmodel.TripViewModel;
+import com.siddharthks.bubbles.FloatingBubblePermissions;
 
 public class UpcomingFragment extends Fragment {
     private RecyclerView recyclerViewTrip;
@@ -43,6 +44,7 @@ public class UpcomingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         initRecycler();
+      FloatingBubblePermissions.startPermissionRequest(getActivity());
     }
 
     @Override

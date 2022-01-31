@@ -26,11 +26,13 @@ import com.example.tripaya.datapicker.TimePickerFragment;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.AddTripViewModel;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.siddharthks.bubbles.FloatingBubblePermissions;
 
 import java.text.DateFormat;
 import java.util.Arrays;
@@ -78,6 +80,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         initListener();
         //initialize places
         Places.initialize(getApplicationContext(), API_KEY);
+     //   FloatingBubblePermissions.startPermissionRequest(this);
 
         Intent intent = getIntent();
         if (intent.hasExtra(ID)) {
@@ -85,6 +88,8 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
             setTitle("Trip Details");
             btnStartTrip.setVisibility(View.VISIBLE);
             btnStartTrip.setText("Start");
+
+
 
             editMode = true;
             btnSaveTrip.setText(R.string.string_btn_save_trip_switch);
@@ -158,6 +163,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
 
         btnSaveTrip.setOnClickListener(view -> saveTrip());
 
+
     }
 
     private void saveTrip() {
@@ -178,11 +184,10 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         addTripViewModel.getAllTrips().observe(this, new Observer<List<TripClass>>() {
             @Override
             public void onChanged(List<TripClass> tripClasses) {
-                if(tripClasses.isEmpty())
-                {
+                if (tripClasses.isEmpty()) {
                     tripClass.setId(1);
-                }else{
-                    tripClass.setId(tripClasses.size()+1);
+                } else {
+                    tripClass.setId(tripClasses.size() + 1);
                 }
                 if (editMode) {
                     tripClass.setId(mId);
@@ -210,7 +215,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         tripClass.setTripStatus("Upcoming");
         tripClass.setNote(tripNotes);
 
-        Log.e("addTripActivity", "Trip ID: "+tripClass.getId());
+        Log.e("addTripActivity", "Trip ID: " + tripClass.getId());
         if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
                 tripTime.isEmpty() || tripType.isEmpty()) {
             Toast.makeText(this, "Please Enter All the Information", Toast.LENGTH_SHORT).show();
@@ -232,10 +237,12 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
                 etStartPoint.setText(place.getName());
             } else if (switchTagEditText == 1) {
                 etEndPoint.setText(place.getName());
+
+
             }
 
             //set location name
-             String location = String.format("Location Address : %s", place.getName());
+            String location = String.format("Location Address : %s", place.getName());
             Toast.makeText(getApplicationContext(), location, Toast.LENGTH_SHORT).show();
             // set latitude and longitude
             locationLatLng = String.valueOf(place.getLatLng());
@@ -274,7 +281,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
 
-        date.set(year,month,dayOfMonth);
+        date.set(year, month, dayOfMonth);
         String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date.getTime());
         tvDate.setText(dateFormat);
 
@@ -283,12 +290,12 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
     // this method to set time
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        date.set(Calendar.HOUR,hour);
-        date.set(Calendar.MINUTE,minute);
+        date.set(Calendar.HOUR, hour);
+        date.set(Calendar.MINUTE, minute);
         tvTime.setText(hour + " : " + minute);
         String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date.getTime());
         tvDate.setText(dateFormat);
-        Log.i("TAG", "onTimeSet: "+date.getTime());
+        Log.i("TAG", "onTimeSet: " + date.getTime());
 
     }
 }

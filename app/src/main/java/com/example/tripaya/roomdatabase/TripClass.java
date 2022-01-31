@@ -12,7 +12,7 @@ public class TripClass implements Serializable {
     // table need primaryKey to be unique
     // for every row creation will take autoGenerate id
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     private int id = 0;
     private String tripName;
     private String startPoint;
