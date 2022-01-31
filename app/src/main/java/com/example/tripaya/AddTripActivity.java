@@ -21,19 +21,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.tripaya.Alert.WorkManagerRepo;
 import com.example.tripaya.datapicker.DatePickerFragment;
 import com.example.tripaya.datapicker.TimePickerFragment;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.AddTripViewModel;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.siddharthks.bubbles.FloatingBubblePermissions;
 
 import java.text.DateFormat;
 import java.util.Arrays;
@@ -182,7 +179,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
         tripType = radioButton.getText().toString().trim();
 
         TripClass tripClass = new TripClass();
-        addTripViewModel.getAllTrips().observe(this, new Observer<List<TripClass>>() {
+        addTripViewModel.getAllzTrips().observe(this, new Observer<List<TripClass>>() {
             @Override
             public void onChanged(List<TripClass> tripClasses) {
                 if (tripClasses.isEmpty()) {
@@ -203,7 +200,7 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
                 //    WorkManagerRepo.setWorkers(this,tripClass);
                 }
                 finish();
-                addTripViewModel.getAllTrips().removeObserver(this);
+                addTripViewModel.getAllzTrips().removeObserver(this);
 
             }
         });

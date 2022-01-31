@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.tripaya.Alert.WorkManagerRepo;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.roomdatabase.TripRepository;
 
@@ -17,11 +16,19 @@ import java.util.List;
 public class TripViewModel extends AndroidViewModel {
     private TripRepository tripRepository;
     private LiveData<List<TripClass>> allTrips;
+    private LiveData<List<TripClass>> allzTrips;
+
+    private LiveData<List<TripClass>> completedTrips;
+    private LiveData<List<TripClass>> historyTrips;
+
 
     public TripViewModel(@NonNull Application application) {
         super(application);
         tripRepository = new TripRepository(application);
         allTrips = tripRepository.getAllTrips();
+        allzTrips = tripRepository.getAllzTrips();
+        completedTrips = tripRepository.getAllCompletedTrips();
+        historyTrips = tripRepository.getAllTripsCompleted();
     }
     // user interface deal with viewModel not Repo so that from Repo object
     // will arrive to all operation
@@ -40,6 +47,15 @@ public class TripViewModel extends AndroidViewModel {
     }
     public LiveData<List<TripClass>> getAllTrips() {
         return allTrips;
+    }
+    public LiveData<List<TripClass>> getAllzTrips() {
+        return allzTrips;
+    }
+    public LiveData<List<TripClass>> getCompletedTrips() {
+        return completedTrips;
+    }
+    public LiveData<List<TripClass>> getHistoryTrips() {
+        return historyTrips;
     }
 
     public void setFireBaseTrips() {

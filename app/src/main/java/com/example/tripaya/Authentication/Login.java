@@ -17,7 +17,6 @@ import androidx.navigation.Navigation;
 
 import com.example.tripaya.MainActivity;
 import com.example.tripaya.R;
-import com.example.tripaya.viewmodel.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

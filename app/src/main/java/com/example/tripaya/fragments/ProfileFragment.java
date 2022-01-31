@@ -15,21 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tripaya.R;
-
 import com.example.tripaya.viewmodel.LoginActivity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.tripaya.viewmodel.TripViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,12 +34,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-import com.google.firebase.FirebaseApp;
-import java.util.Objects;
+
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -57,6 +50,7 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
     private FirebaseUser mUser;
     private FirebaseStorage  storage;
     private Uri profileUri;
+    TextView tv_trips,tv_completed,tv_cancled;
     private StorageReference storageReference;
     String profileImageUrl,UserName,UserEmail;
     SharedPreferences sharedPreferences;
@@ -64,7 +58,7 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
     private static final String KEY_NAME="name";
     private static final String KEY_EMAIL="email";
     private static final String KEY_PHOTO="photo";
-
+    private TripViewModel tripViewModel;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -73,6 +67,7 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_profile, container, false);
 
     }
@@ -84,10 +79,14 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-
+        tripViewModel = new ViewModelProvider(getActivity()).get(TripViewModel.class);
         userName_field=view.findViewById(R.id.userName_field);
         gmail_field=view.findViewById(R.id.gmail_field);
         profile_image=view.findViewById(R.id.profile_image);
+        tv_trips = view.findViewById(R.id.trips);
+        tv_cancled = view.findViewById(R.id.canceled);
+        tv_completed = view.findViewById(R.id.completed);
+        setData();
         sharedPreferences= getActivity().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         //firebaseRef
         storage=FirebaseStorage.getInstance();
@@ -102,7 +101,24 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
                 choosePicture();
             }
         });
+
     }
+
+    private void setData()
+    {
+        tripViewModel.getAllzTrips().observe(getActivity(), tripClasses3 -> {
+
+            tv_trips.setText(String.valueOf(tripClasses3.size()));
+    });
+        tripViewModel.getCompletedTrips().observe(getActivity(),tripClasses2 ->
+        {
+            tv_completed.setText(String.valueOf(tripClasses2.size()));
+        });
+        tripViewModel.getHistoryTrips().observe(getActivity(),tripClasses1 -> {
+            tv_cancled.setText(String.valueOf(tripClasses1.size()));
+        });
+    }
+
     private void choosePicture(){
         Intent intent= new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -190,12 +206,13 @@ public class ProfileFragment extends Fragment implements  ActivityCompat.OnReque
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()==R.id.logout ) {
+        if (item.getItemId()== R.id.logout ) {
             mFirebaseAuth.signOut();
             Intent intent = new Intent(getContext(), LoginActivity.class);
             startActivity(intent);
             Activity activity=this.getActivity();
             Toast.makeText(activity, "Logged out", Toast.LENGTH_SHORT).show();
+            tripViewModel.deleteAllTrips();
         }
         return super.onOptionsItemSelected(item);
     }

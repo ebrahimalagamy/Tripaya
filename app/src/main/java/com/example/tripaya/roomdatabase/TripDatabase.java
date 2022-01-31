@@ -37,7 +37,7 @@ public abstract class TripDatabase extends RoomDatabase {
     // set initial data in database
     // onCreate call in first time user install the app in his device and the database created
     // onOpen call every time user use app
-    private static RoomDatabase.Callback callback = new RoomDatabase.Callback(){
+    private static Callback callback = new Callback(){
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);

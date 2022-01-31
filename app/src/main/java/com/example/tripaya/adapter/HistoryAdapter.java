@@ -39,11 +39,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.TripHold
 
     @NonNull
     @Override
-    public HistoryAdapter.TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trip_history, parent, false);
 
 
-        return new HistoryAdapter.TripHolder(view);
+        return new TripHolder(view);
     }
 
     public List<TripClass> getTrips(){
@@ -51,7 +51,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.TripHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HistoryAdapter.TripHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TripHolder holder, int position) {
         // this take care to take the data from single node into views in tripHolder
         TripClass tripClass = trips.get(position);
         holder.tripName.setText(tripClass.getTripName());

@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Date;
 
 @Entity(tableName = "trip_table")

@@ -16,17 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.SavedStateViewModelFactory;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripaya.R;
-import com.example.tripaya.SimpleService;
 import com.example.tripaya.roomdatabase.TripClass;
-import com.example.tripaya.roomdatabase.TripDao;
-import com.example.tripaya.viewmodel.AddTripViewModel;
-import com.example.tripaya.viewmodel.TripViewModel;
-import com.siddharthks.bubbles.FloatingBubblePermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +37,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
 
     public TripAdapter() {
     }
+    public void restoreItem(TripClass item, int position) {
+        trips.add(position, item);
 
+        notifyItemInserted(position);
+    }
 
     @NonNull
     @Override
