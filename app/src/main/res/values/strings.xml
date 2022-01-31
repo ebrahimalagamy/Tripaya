@@ -52,14 +52,17 @@
     <string name="string_edit_text_select_type">Select Trip Type</string>
     <string name="string_btn_string">Start</string>
     <string name="string_notes">Notes</string>
+
     <string	name="google_maps_key"	templateMergeStrategy="preserve"
-        translatable="false">AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q</string>
+        translatable="false">AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q</string></resources>
+
 
 
     <string name="text_placeholder" translatable="false">siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth </string>
     <string name="small_text_placeholder" translatable="false">siddharth siddharth siddharth siddharth siddharth </string>
     <string name="smaller_text_placeholder" translatable="false">siddharth siddharth siddharth siddharth  </string>
     <string name="tiny_text_placeholder" translatable="false">siddharth siddharth </string>
+
 
 </resources>
 

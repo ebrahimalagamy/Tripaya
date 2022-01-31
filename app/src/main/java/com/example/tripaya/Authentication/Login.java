@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.tripaya.Alert.AlertActivity;
 import com.example.tripaya.MainActivity;
 import com.example.tripaya.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends Fragment {
 
     EditText email, password;
-    Button logBtn;
+    Button logBtn, goDialog;
     TextView forgotPw, signUp,welcomeMsg;
 
 
@@ -42,6 +43,7 @@ public class Login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
+        goDialog = view.findViewById(R.id.goToDialog);
         initComponent();
 
 
@@ -63,6 +65,14 @@ public class Login extends Fragment {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(view).navigate(R.id.login_to_forgotPassword);
+            }
+        });
+
+        goDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AlertActivity.class);
+                startActivity(intent);
             }
         });
 

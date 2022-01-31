@@ -18,12 +18,13 @@ import androidx.work.WorkerParameters;
 import com.example.tripaya.roomdatabase.TripClass;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class WorkManagerRepo {
     public static final String tripId = "TripId";
 
-    public static void setWorkers(Context context, TripClass[] trips) {
+    public static void setWorkers(Context context, List<TripClass> trips) {
         WorkManager.getInstance(context).cancelAllWork();
 
         for (TripClass trip : trips) {
@@ -61,7 +62,7 @@ public class WorkManagerRepo {
         public Result doWork() {
 //            TripCRUD.getInstance().getAll();
 
-            Intent intent = new Intent(context, Dialog.class);
+            Intent intent = new Intent(context, AlertActivity.class);
             String trip = getInputData().getString(tripId);
 
             System.out.println("trip");
