@@ -193,6 +193,8 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
                 if (editMode) {
                     tripClass.setId(mId);
                     addTripViewModel.update(tripClass);
+                    WorkManagerRepo.setWorkers(getApplicationContext(),tripClasses);
+
                 } else {
                     if (tripName.isEmpty() || tripStartPoint.isEmpty() || tripEndPoint.isEmpty() || tripDate.isEmpty() ||
                             tripTime.isEmpty() || tripType.isEmpty()) {
@@ -200,7 +202,10 @@ public class AddTripActivity extends AppCompatActivity implements DatePickerDial
                         return;
                     }
                     addTripViewModel.insert(tripClass);
-                //    WorkManagerRepo.setWorkers(this,tripClass);
+
+                    WorkManagerRepo.setWorkers(getApplicationContext(),tripClasses);
+
+
                 }
                 finish();
                 addTripViewModel.getAllTrips().removeObserver(this);

@@ -78,7 +78,6 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
             Color.LTGRAY,
             Color.MAGENTA,
             Color.TRANSPARENT,
-            Color.WHITE,
             Color.YELLOW
     };
 
@@ -158,16 +157,16 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         for (TripClass trip : tripAdapter.getTrips()) {
-            LatLng origin ;
-            LatLng dest ;
+            LatLng origins ;
+            LatLng destn ;
 
             Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
             try{
                 Address startPoint = geocoder.getFromLocationName(trip.getStartPoint(),1).get(0);
-                origin = new LatLng(startPoint.getLatitude(),startPoint.getLongitude());
+                origins = new LatLng(startPoint.getLatitude(),startPoint.getLongitude());
 
                 Address endPoint = geocoder.getFromLocationName(trip.getEndPoint(),1).get(0);
-                dest = new LatLng(startPoint.getLatitude(),startPoint.getLongitude());
+                destn = new LatLng(endPoint.getLatitude(),endPoint.getLongitude());
             }catch (Exception exception){
                 errorMessage = exception.getMessage();
                 continue;
@@ -176,15 +175,15 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 10));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origins, 10));
 
             // Creating MarkerOptions
             MarkerOptions options1 = new MarkerOptions();
             MarkerOptions options2 = new MarkerOptions();
 
             // Setting the position of the marker
-            options1.position(origin);
-            options2.position(dest);
+            options1.position(origins);
+            options2.position(destn);
 
             options1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             options2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
@@ -194,14 +193,14 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
             mMap.addMarker(options2);
 
             // Getting URL to the Google Directions API
-            String url = getUrl(origin, dest);
+            String url = getUrl(origins, destn);
             FetchUrl FetchUrl = new FetchUrl();
 
             // Start downloading json data from Google Directions API
             FetchUrl.execute(url);
 
             //move map camera
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(origins));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
         }
