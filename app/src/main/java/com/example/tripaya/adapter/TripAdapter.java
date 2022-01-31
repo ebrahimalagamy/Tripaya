@@ -1,9 +1,12 @@
 package com.example.tripaya.adapter;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.SavedStateViewModelFactory;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +28,21 @@ import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.roomdatabase.TripDao;
 import com.example.tripaya.viewmodel.AddTripViewModel;
 import com.example.tripaya.viewmodel.TripViewModel;
+<<<<<<< Updated upstream
+=======
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.siddharthks.bubbles.FloatingBubblePermissions;
+>>>>>>> Stashed changes
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +51,19 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
     private OnItemClickListener listener;
     private status status;
     private Context context;
+    OnItemClickListener runnable;
+    FusedLocationProviderClient client;
+    SupportMapFragment supportMapFragment;
+
 
 
     public TripAdapter(Context context) {
         this.context = context;
+    }
+
+    public TripAdapter(Context context,OnItemClickListener runnable){
+        this.context = context;
+        this.runnable = runnable;
     }
 
     public TripAdapter() {
@@ -48,6 +75,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
     public TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trip, parent, false);
 
+<<<<<<< Updated upstream
+=======
+        client = LocationServices.getFusedLocationProviderClient(context);
+
+>>>>>>> Stashed changes
 
         return new TripHolder(view);
     }
@@ -65,6 +97,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         holder.tripStatus.setText(tripClass.getTripStatus());
 
         holder.imageButton.setOnClickListener(v -> {
+
+
 
             String sSource = holder.tripStartPoint.getText().toString().trim();
             String sDestination = holder.tripEndPoint.getText().toString().trim();
@@ -125,6 +159,45 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             });
             popupMenu.show();
         });
+<<<<<<< Updated upstream
+=======
+
+        holder.btnStartTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                runnable.onItemClick(tripClass);
+                /*if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    ActivityCompat.requestPermissions(, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},1);
+                    return;
+                }
+
+
+
+                String sSource = holder.tripStartPoint.getText().toString().trim();
+                String sDestination = holder.tripEndPoint.getText().toString().trim();
+
+                if (sSource.equals("") && sDestination.equals("")) {
+                    Toast.makeText(v.getContext(), "Please Enter your start and end location", Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Uri uri = Uri.parse("http://www.google.co.in/maps/dir/" + sSource + "/" + sDestination);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        intent.setPackage("com.google.android.apps.maps");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        v.getContext().startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        v.getContext().startActivity(intent);
+                    }
+                }*/
+            }
+        });
+>>>>>>> Stashed changes
     }
 
 
@@ -198,4 +271,12 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
     public void OnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+<<<<<<< Updated upstream
+=======
+
+    public interface TimerStarter {
+        void startTimer();
+    }
+
+>>>>>>> Stashed changes
 }

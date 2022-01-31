@@ -52,5 +52,20 @@
     <string name="string_edit_text_select_type">Select Trip Type</string>
     <string name="string_btn_string">Start</string>
     <string name="string_notes">Notes</string>
+<<<<<<< Updated upstream
     <string	name="google_maps_key"	templateMergeStrategy="preserve"
         translatable="false">AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q</string></resources>
+=======
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q</string>
+
+
+    <string name="text_placeholder" translatable="false">siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth </string>
+    <string name="small_text_placeholder" translatable="false">siddharth siddharth siddharth siddharth siddharth </string>
+    <string name="smaller_text_placeholder" translatable="false">siddharth siddharth siddharth siddharth  </string>
+    <string name="tiny_text_placeholder" translatable="false">siddharth siddharth </string>
+    <string name="title_activity_maps">MapsActivity</string>
+
+</resources>
+
+
+>>>>>>> Stashed changes
