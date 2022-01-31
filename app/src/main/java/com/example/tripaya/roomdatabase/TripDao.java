@@ -30,10 +30,12 @@ public interface TripDao {
     // to select every columns and show it in recycler when the app closed
     // use liveDate to observing data if make any change in table and our activity will be notify
     @Query("SELECT * FROM trip_table")
-        LiveData<List<TripClass>> getAllTrips();
+    LiveData<List<TripClass>> getAllTrips();
 
     @Query("SELECT * FROM trip_table WHERE tripStatus = 'Upcoming' ")
     LiveData<List<TripClass>> getAllNewTrips();
+    @Query("SELECT * FROM trip_table WHERE tripStatus = 'Completed' ")
+    LiveData<List<TripClass>> getAllCompletedTrips();
 
     @Query("SELECT * FROM trip_table WHERE tripStatus != 'Upcoming' ")
     LiveData<List<TripClass>> getAllTripsCompleted();

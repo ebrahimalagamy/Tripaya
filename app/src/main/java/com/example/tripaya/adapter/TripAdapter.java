@@ -17,16 +17,6 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.SavedStateViewModelFactory;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.tripaya.R;
-import com.example.tripaya.SimpleService;
-import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.roomdatabase.TripDao;
 import com.example.tripaya.viewmodel.AddTripViewModel;
 import com.example.tripaya.viewmodel.TripViewModel;
@@ -41,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.siddharthks.bubbles.FloatingBubblePermissions;
+
 
 
 import java.lang.reflect.Array;
@@ -69,7 +60,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
 
     public TripAdapter() {
     }
+    public void restoreItem(TripClass item, int position) {
+        trips.add(position, item);
 
+        notifyItemInserted(position);
+    }
 
     @NonNull
     @Override

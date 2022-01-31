@@ -24,12 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripaya.R;
 import com.example.tripaya.adapter.HistoryAdapter;
-import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.fragments.helpers.DataParser;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.HistoryViewModel;
-import com.example.tripaya.viewmodel.TripViewModel;
-import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -98,6 +95,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        getActivity().setTitle("History");
         initRecycler();
     }
     private void initComponent() {

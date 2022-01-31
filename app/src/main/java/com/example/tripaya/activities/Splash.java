@@ -1,7 +1,5 @@
 package com.example.tripaya.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +9,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tripaya.Authentication.Login;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.tripaya.MainActivity;
 import com.example.tripaya.R;
 import com.example.tripaya.viewmodel.LoginActivity;
@@ -35,7 +34,7 @@ public class Splash extends AppCompatActivity {
         topAnimantion = AnimationUtils.loadAnimation(this, R.anim.top_animation);
         bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
         logo=findViewById(R.id.textView);
-        slogan=findViewById(R.id.textView2);
+        slogan=findViewById(R.id.trips);
         image=findViewById(R.id.image);
         image.setAnimation(topAnimantion);
         logo.setAnimation(bottomAnimation);

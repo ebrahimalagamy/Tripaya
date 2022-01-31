@@ -3,6 +3,7 @@ package com.example.tripaya;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -87,8 +88,12 @@ public class MainActivity extends AppCompatActivity {
                 // switch to upcoming fragment
                 navController.navigate(R.id.upcomingFragment);
             } else if (upcomingSwitch == 0) {
+                if (InternetConnection.checkConnection(this)){
                 Intent i = new Intent(MainActivity.this, AddTripActivity.class);
-                startActivity(i);
+                startActivity(i);}
+                else{
+                    Toast.makeText(MainActivity.this,"plz Check internet connection",Toast.LENGTH_LONG).show();
+                }
             }
 
             if (historySwitch == 1) {

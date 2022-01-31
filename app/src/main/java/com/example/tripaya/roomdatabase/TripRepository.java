@@ -25,6 +25,8 @@ import java.util.Set;
 public class TripRepository {
     private TripDao tripDao;
     private LiveData<List<TripClass>> getAllTrips;
+    private LiveData<List<TripClass>> getallzTrips;
+    private LiveData<List<TripClass>> getCompletedTrips;
     private LiveData<List<TripClass>> getAllTripsCompleted;
     private List<TripClass> getTrips;
     private final MutableLiveData<List<TripClass>> firebaseTrips;
@@ -39,8 +41,10 @@ public class TripRepository {
         TripDatabase tripDatabase = TripDatabase.getInstance(application);
         // tripDao() is abstract in TripDatabase class
         tripDao = tripDatabase.tripDao();
+        getallzTrips = tripDao.getAllTrips();
         getAllTrips = tripDao.getAllNewTrips();
         getAllTripsCompleted = tripDao.getAllTripsCompleted();
+        getCompletedTrips = tripDao.getAllCompletedTrips();
         // getTrips = tripDao.getTrips();
         firebaseTrips = new MutableLiveData<>();
         FireBase();
@@ -93,7 +97,7 @@ public class TripRepository {
 
     public void deleteAllTrips() {
         new DeleteAllTripAsyncTask(tripDao).execute();
-        myRef.child(Uid).child("UserTrips").removeValue();
+   //     myRef.child(Uid).child("UserTrips").removeValue();
     }
 
     // use it to return firebase words;
@@ -162,11 +166,15 @@ public class TripRepository {
     public LiveData<List<TripClass>> getAllTrips() {
         return getAllTrips;
     }
-
+    public LiveData<List<TripClass>> getAllCompletedTrips() {
+        return getCompletedTrips;
+    }
+    public LiveData<List<TripClass>> getAllzTrips() {
+        return getallzTrips;
+    }
     public LiveData<List<TripClass>> getAllTripsCompleted() {
         return getAllTripsCompleted;
     }
-
     public List<TripClass> getTrips() {
         return getTrips;
     }

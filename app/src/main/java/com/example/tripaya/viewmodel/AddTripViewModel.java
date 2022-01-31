@@ -15,12 +15,14 @@ public class AddTripViewModel extends AndroidViewModel {
     private TripRepository tripRepository;
     private LiveData<List<TripClass>> allTrips;
 
+    private LiveData<List<TripClass>> allzTrips;
 
 
     public AddTripViewModel(@NonNull Application application) {
         super(application);
         tripRepository = new TripRepository(application);
         allTrips = tripRepository.getAllTrips();
+        allzTrips = tripRepository.getAllzTrips();
 
     }
 
@@ -37,6 +39,8 @@ public class AddTripViewModel extends AndroidViewModel {
     public LiveData<List<TripClass>> getAllTrips(){
         return allTrips;
     }
-
+    public LiveData<List<TripClass>> getAllzTrips(){
+        return allzTrips;
+    }
 
 }

@@ -54,7 +54,7 @@ public class FloatingBubbleService extends Service {
     protected WindowManager.LayoutParams expandableParams;
 
     private FloatingBubbleConfig config;
-    private com.siddharthks.bubbles.FloatingBubblePhysics physics;
+    private FloatingBubblePhysics physics;
     private FloatingBubbleTouch touch;
 
     @Override
