@@ -4,6 +4,9 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 @Entity(tableName = "trip_table")
 public class TripClass implements Serializable {
@@ -39,6 +42,15 @@ public class TripClass implements Serializable {
         this.tripType = tripType;
         this.tripStatus = tripStatus;
         this.note = note;
+    }
+
+    public Date dateFromStringToDate () {
+        try {
+            return
+            DateFormat.getDateInstance().parse(this.date);
+        }catch (Exception e){
+            return new Date();
+        }
     }
 
     public void setId(int id) {

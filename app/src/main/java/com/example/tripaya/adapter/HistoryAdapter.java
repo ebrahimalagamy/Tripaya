@@ -46,6 +46,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.TripHold
         return new HistoryAdapter.TripHolder(view);
     }
 
+    public List<TripClass> getTrips(){
+        return trips;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.TripHolder holder, int position) {
         // this take care to take the data from single node into views in tripHolder

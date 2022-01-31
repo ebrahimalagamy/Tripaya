@@ -2,6 +2,8 @@ package com.example.tripaya.fragments;
 
 
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,8 +26,10 @@ import com.example.tripaya.R;
 import com.example.tripaya.adapter.HistoryAdapter;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.fragments.helpers.DataParser;
+import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.HistoryViewModel;
 import com.example.tripaya.viewmodel.TripViewModel;
+import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,6 +50,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+
 public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
     private RecyclerView recyclerViewHistory;
@@ -53,10 +60,29 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
     private HistoryViewModel historyViewModel;
     private GoogleMap mMap;
     ArrayList markerPoints = new ArrayList();
-/*    LatLng locationS = new LatLng(22.56452, 46.123213);
+    HistoryAdapter tripAdapter = new HistoryAdapter();
+
+    /*    LatLng locationS = new LatLng(22.56452, 46.123213);
 
     LatLng locationE = new LatLng(24.56452, 48.123213);*/
     View view;
+
+    private int[] colors={
+            Color.RED,
+            Color.BLACK,
+            Color.BLUE,
+            Color.CYAN,
+            Color.DKGRAY,
+            Color.GRAY,
+            Color.GREEN,
+            Color.LTGRAY,
+            Color.MAGENTA,
+            Color.TRANSPARENT,
+            Color.WHITE,
+            Color.YELLOW
+    };
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,10 +109,11 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         // initialize recycler view with TripAdapter
         recyclerViewHistory.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewHistory.setHasFixedSize(true);
-        HistoryAdapter tripAdapter = new HistoryAdapter();
         recyclerViewHistory.setAdapter(tripAdapter);
 
         historyViewModel = new ViewModelProvider(getActivity()).get(HistoryViewModel.class);
+
+
         // this method observe the data if any thing change
         historyViewModel.getAllTripsCompleted().observe(getActivity(), tripClasses -> {
 
@@ -124,89 +151,82 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        String errorMessage = "";
 
         mMap = googleMap;
 
-        // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16));
+        for (TripClass trip : tripAdapter.getTrips()) {
+            LatLng origin ;
+            LatLng dest ;
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            try{
+                Address startPoint = geocoder.getFromLocationName(trip.getStartPoint(),1).get(0);
+                origin = new LatLng(startPoint.getLatitude(),startPoint.getLongitude());
 
-            @Override
-            public void onMapClick(LatLng point) {
-
-                // Already two locations
-                if (markerPoints.size() > 1) {
-                    markerPoints.clear();
-                    mMap.clear();
-                }
-
-                // Adding new item to the ArrayList
-                markerPoints.add(point);
-
-                // Creating MarkerOptions
-                MarkerOptions options = new MarkerOptions();
-
-                // Setting the position of the marker
-                options.position(point);
-
-                /**
-                 * For the start location, the color of marker is GREEN and
-                 * for the end location, the color of marker is RED.
-                 */
-                if (markerPoints.size() == 1) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                } else if (markerPoints.size() == 2) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-
-
-                // Add new marker to the Google Map Android API V2
-                mMap.addMarker(options);
-
-                // Checks, whether start and end locations are captured
-                if (markerPoints.size() >= 2) {
-                    LatLng origin = (LatLng) markerPoints.get(0);
-                    LatLng dest = (LatLng) markerPoints.get(1);
-
-                    // Getting URL to the Google Directions API
-                    String url = getUrl(origin, dest);
-                    Log.d("onMapClick", url.toString());
-                    FetchUrl FetchUrl = new FetchUrl();
-
-                    // Start downloading json data from Google Directions API
-                    FetchUrl.execute(url);
-                    //move map camera
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-                }
-
+                Address endPoint = geocoder.getFromLocationName(trip.getEndPoint(),1).get(0);
+                dest = new LatLng(startPoint.getLatitude(),startPoint.getLongitude());
+            }catch (Exception exception){
+                errorMessage = exception.getMessage();
+                continue;
             }
 
-            private String getUrl(LatLng origin, LatLng dest) {
-                String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-
-                // Destination of route
-                String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-
-                // Sensor enabled
-                String sensor = "sensor=false";
-                String mode = "mode=driving";
-
-                // Building the parameters to the web service
-                String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode;
-
-                // Output format
-                String output = "json";
-
-                // Building the url to the web service
-                String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + "AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q";
 
 
-                return url;
-            }
-        });
 
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 10));
+
+            // Creating MarkerOptions
+            MarkerOptions options1 = new MarkerOptions();
+            MarkerOptions options2 = new MarkerOptions();
+
+            // Setting the position of the marker
+            options1.position(origin);
+            options2.position(dest);
+
+            options1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            options2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+            // Add new marker to the Google Map Android API V2
+            mMap.addMarker(options1);
+            mMap.addMarker(options2);
+
+            // Getting URL to the Google Directions API
+            String url = getUrl(origin, dest);
+            FetchUrl FetchUrl = new FetchUrl();
+
+            // Start downloading json data from Google Directions API
+            FetchUrl.execute(url);
+
+            //move map camera
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+
+        }
     }
+
+    private String getUrl(LatLng origin, LatLng dest) {
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+        String mode = "mode=driving";
+
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + "AIzaSyDztAjcgoolhK_1EtCISqxjf2cBA33tk0Q";
+
+        return url;
+    }
+
     private class FetchUrl extends AsyncTask<String, Void, String> {
 
         @Override
@@ -234,6 +254,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
         }
     }
+
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
@@ -296,8 +317,12 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         // Executes in UI thread, after the parsing process
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            int color = new Random().nextInt(colors.length-1);
             ArrayList<LatLng> points;
             PolylineOptions lineOptions = null;
+
+            if(result == null)
+                return;
 
             // Traversing through all the routes
             for (int i = 0; i < result.size(); i++) {
@@ -321,7 +346,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
                 // Adding all the points in the route to LineOptions
                 lineOptions.addAll(points);
                 lineOptions.width(10);
-                lineOptions.color(Color.RED);
+                lineOptions.color(colors[color]);
 
                 Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 

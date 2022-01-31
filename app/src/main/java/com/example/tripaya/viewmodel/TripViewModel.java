@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.tripaya.Alert.WorkManagerRepo;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.roomdatabase.TripRepository;
 
@@ -32,6 +33,7 @@ public class TripViewModel extends AndroidViewModel {
     }
     public void delete(TripClass tripClass) {
         tripRepository.delete(tripClass);
+
     }
     public void deleteAllTrips() {
         tripRepository.deleteAllTrips();
