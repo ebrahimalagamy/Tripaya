@@ -184,12 +184,12 @@ public class FloatingBubbleService extends Service {
             ((ImageView) bubbleView).setImageDrawable(config.getBubbleIcon());
         }
 
-        CardView card = (CardView) expandableView.findViewById(com.siddharthks.bubbles.R.id.expandableViewCard);
+        CardView card = expandableView.findViewById(com.siddharthks.bubbles.R.id.expandableViewCard);
         card.setRadius(dpToPixels(config.getBorderRadiusDp()));
 
-        ImageView triangle = (ImageView) expandableView.findViewById(com.siddharthks.bubbles.R.id.expandableViewTriangle);
+        ImageView triangle = expandableView.findViewById(com.siddharthks.bubbles.R.id.expandableViewTriangle);
         LinearLayout container =
-                (LinearLayout) expandableView.findViewById(com.siddharthks.bubbles.R.id.expandableViewContainer);
+                expandableView.findViewById(com.siddharthks.bubbles.R.id.expandableViewContainer);
         if (config.getExpandableView() != null) {
             triangle.setColorFilter(config.getTriangleColor());
             ViewGroup.MarginLayoutParams params =
@@ -322,6 +322,7 @@ public class FloatingBubbleService extends Service {
 
     /**
      * Sets the state of the expanded view
+     *
      * @param expanded the expanded view state
      */
     protected void setState(boolean expanded) {

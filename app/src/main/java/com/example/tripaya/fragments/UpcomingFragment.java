@@ -1,12 +1,12 @@
 package com.example.tripaya.fragments;
 
+import android.animation.Animator;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,31 +31,22 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.tripaya.AddTripActivity;
 import com.example.tripaya.InternetConnection;
-
 import com.example.tripaya.R;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.TripViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.siddharthks.bubbles.FloatingBubblePermissions;
 
 
 public class UpcomingFragment extends Fragment {
-    private RecyclerView recyclerViewTrip;
-    //create object of viewModel
-    private TripViewModel tripViewModel;
+    public static final String TAG = "Trace Location";
     FusedLocationProviderClient client;
     TripClass tripClass;
     View view;
@@ -64,8 +56,9 @@ public class UpcomingFragment extends Fragment {
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
     TripAdapter tripAdapter;
-
-    public static final String TAG = "Trace Location";
+    private RecyclerView recyclerViewTrip;
+    //create object of viewModel
+    private TripViewModel tripViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +75,7 @@ public class UpcomingFragment extends Fragment {
         setHasOptionsMenu(true);
         initRecycler();
         onScroll();
-      FloatingBubblePermissions.startPermissionRequest(getActivity());
+        FloatingBubblePermissions.startPermissionRequest(getActivity());
     }
 
     @Override
@@ -102,20 +95,25 @@ public class UpcomingFragment extends Fragment {
         recyclerViewTrip.setLayoutManager(layoutManager);
         recyclerViewTrip.setHasFixedSize(true);
 
-        TripAdapter tripAdapter = new TripAdapter(getContext(),this::onTripStart);
+        TripAdapter tripAdapter = new TripAdapter(getContext(), this::onTripStart);
         recyclerViewTrip.setAdapter(tripAdapter);
 
         tripViewModel = new ViewModelProvider(getActivity()).get(TripViewModel.class);
         // this method observe the data if any thing change
-        tripViewModel.getAllTrips().observe(getActivity(), tripClasses -> {
+        tripViewModel.getAllTrips().observe(requireActivity(), tripClasses -> {
+            tripViewModel.getIsSignedOut().observe(getActivity(), new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean aBoolean) {
+                    if (tripClasses.isEmpty() && !aBoolean) {
+                        tripViewModel.setFireBaseTrips();
+                    } else {
+                        tripAdapter.setTrips(tripClasses);
+                    }
+                    // onChanged is called when the activity on the foreground
+                    //update recycler view
+                }
+            });
 
-            if (tripClasses.isEmpty())
-            {
-                tripViewModel.setFireBaseTrips();
-            }
-            // onChanged is called when the activity on the foreground
-            //update recycler view
-            tripAdapter.setTrips(tripClasses);
         });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -134,8 +132,11 @@ public class UpcomingFragment extends Fragment {
                 // if we want delete the item inside viewModel we need the item not position of the item
                 // we set method return position depend on the position in the adapter
                 tripViewModel.delete(tripAdapter.getTripAt(viewHolder.getAdapterPosition()));
+
+
+
                 Toast.makeText(getActivity(), "Trip Deleted", Toast.LENGTH_SHORT).show();
-                snackbar(pos, trip);
+                 snackbar(pos, trip);
                 tripAdapter.notifyItemRemoved(pos);
 
             }
@@ -155,9 +156,8 @@ public class UpcomingFragment extends Fragment {
                 intent.putExtra(AddTripActivity.NOTE, tripClass.getNote());
                 // intent.putExtra(AddTripActivity.TYPE,tripClass.getTripType());
                 startActivity(intent);
-            }
-            else {
-                Toast.makeText(getContext(),"plz check your internet connection",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "plz check your internet connection", Toast.LENGTH_LONG).show();
             }
         });
         tripAdapter.onStatesChangeListner(tripClass -> {
@@ -165,6 +165,7 @@ public class UpcomingFragment extends Fragment {
         });
 
     }
+
     private void snackbar(final int pos, final TripClass tripClass) {
         snackbar = Snackbar.make(coordinatorLayout, "item deleted",
                 BaseTransientBottomBar.LENGTH_LONG).addCallback(new Snackbar.Callback() {
@@ -174,6 +175,7 @@ public class UpcomingFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         // undo = 1;
+
                         Toast.makeText(requireContext(), "recoverd", Toast.LENGTH_SHORT).show();
                         tripAdapter.restoreItem(tripClass, pos);
                         tripViewModel.insert(tripClass);
@@ -194,6 +196,7 @@ public class UpcomingFragment extends Fragment {
         snackbar.show();
 
     }
+
     private void onScroll() {
 
         constrain = getActivity().findViewById(R.id.bottom_Nav_Bar);
@@ -205,7 +208,7 @@ public class UpcomingFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                System.out.println(newState + " state" );
+                System.out.println(newState + " state");
 //
             }
 
@@ -256,7 +259,7 @@ public class UpcomingFragment extends Fragment {
                             .playOn(floatingActionButton);
                     floatingActionButton.setVisibility(View.VISIBLE);
                     y = 1;
-                    state=false;
+                    state = false;
                 }
             }
 
@@ -266,17 +269,19 @@ public class UpcomingFragment extends Fragment {
 
     public void onTripStart(TripClass tripClass) {
         this.tripClass = tripClass;
+        tripClass.setTripStatus("Completed");
+        tripViewModel.update(tripClass);
         onTripStart();
     }
 
-    public void onTripStart(){
+    public void onTripStart() {
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION},1);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return;
         }
-        WorkManagerRepo.setWorkers(getContext(),tripClasses);
+        // WorkManagerRepo.setWorkers(getContext(),tripClasses);
         client = LocationServices.getFusedLocationProviderClient(getContext());
 
         Task<Location> task = client.getLastLocation();
@@ -284,8 +289,8 @@ public class UpcomingFragment extends Fragment {
             @Override
             public void onSuccess(Location location) {
 
-                String latLng = location.getLatitude()+","+ location.getLongitude();
-                String sDestination = tripClass.getEndPoint().toString().trim();
+                String latLng = location.getLatitude() + "," + location.getLongitude();
+                String sDestination = tripClass.getEndPoint().trim();
 
                 if (latLng.equals("") && sDestination.equals("")) {
                     Toast.makeText(getContext(), "Please Enter your start and end location", Toast.LENGTH_SHORT).show();
@@ -313,8 +318,8 @@ public class UpcomingFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode == 44){
-            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 44) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onTripStart();
             }
         }
@@ -331,7 +336,7 @@ public class UpcomingFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_all_trips:
-                tripViewModel.deleteAllTrips();
+                tripViewModel.deleteAllTripsall();
                 Toast.makeText(getActivity(), "All trips deleted", Toast.LENGTH_SHORT).show();
                 return true;
             default:

@@ -29,7 +29,7 @@ import java.util.Objects;
 
 public class Register extends Fragment {
     TextView alreadyHaveAcc;
-    EditText username,pass,conPass,inputEmail;
+    EditText username, pass, conPass, inputEmail;
     Button register;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ProgressDialog progressDialog;
@@ -42,7 +42,7 @@ public class Register extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_register, container,false);
+        view = inflater.inflate(R.layout.fragment_register, container, false);
         initComponent();
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +62,7 @@ public class Register extends Fragment {
         return view;
     }
 
-    private void initComponent(){
+    private void initComponent() {
         alreadyHaveAcc = view.findViewById(R.id.alreadyHaveId);
         username = view.findViewById(R.id.usernameId);
         pass = view.findViewById(R.id.passId);
@@ -74,39 +74,36 @@ public class Register extends Fragment {
         progressDialog = new ProgressDialog(getContext());
     }
 
-    private void performAuth(){
+    private void performAuth() {
         String email = inputEmail.getText().toString();
         String password = pass.getText().toString();
         String confirmPass = conPass.getText().toString();
 
-        if (!email.matches(emailPattern)){
+        if (!email.matches(emailPattern)) {
             inputEmail.setError("Enter Correct Email");
-        }
-        else if(password.isEmpty() || password.length()<6){
+        } else if (password.isEmpty() || password.length() < 6) {
             pass.setError("Password has to be 6 or more characters");
-        }
-        else if(!password.equals(confirmPass)){
+        } else if (!password.equals(confirmPass)) {
             conPass.setError("Passwords doesn't match");
-        }
-        else{
+        } else {
             progressDialog.setMessage("Registering...");
             progressDialog.setTitle("Registration");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
-            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         assert user != null;
                         String userId = user.getUid();
                         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("userId",userId);
-                        hashMap.put("username",username.getText().toString());
-                        hashMap.put("email",email);
-                        hashMap.put("imageURL","default");
+                        hashMap.put("userId", userId);
+                        hashMap.put("username", username.getText().toString());
+                        hashMap.put("email", email);
+                        hashMap.put("imageURL", "default");
                         databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -116,18 +113,14 @@ public class Register extends Fragment {
                             }
                         });
 
-                    }
-                    else{
+                    } else {
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), ""+ Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
-
-
-
 
 
 }

@@ -52,19 +52,17 @@ import java.util.Random;
 
 public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
-    private RecyclerView recyclerViewHistory;
-    //create object of viewModel
-    private HistoryViewModel historyViewModel;
-    private GoogleMap mMap;
     ArrayList markerPoints = new ArrayList();
     HistoryAdapter tripAdapter = new HistoryAdapter();
-
     /*    LatLng locationS = new LatLng(22.56452, 46.123213);
 
     LatLng locationE = new LatLng(24.56452, 48.123213);*/
     View view;
-
-    private int[] colors={
+    private RecyclerView recyclerViewHistory;
+    //create object of viewModel
+    private HistoryViewModel historyViewModel;
+    private GoogleMap mMap;
+    private final int[] colors = {
             Color.RED,
             Color.BLACK,
             Color.BLUE,
@@ -77,7 +75,6 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
             Color.TRANSPARENT,
             Color.YELLOW
     };
-
 
 
     @Override
@@ -98,6 +95,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         getActivity().setTitle("History");
         initRecycler();
     }
+
     private void initComponent() {
         recyclerViewHistory = view.findViewById(R.id.recycler_view_history);
     }
@@ -114,7 +112,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         // this method observe the data if any thing change
         historyViewModel.getAllTripsCompleted().observe(getActivity(), tripClasses -> {
 
-           if (tripClasses.isEmpty()) {
+            if (tripClasses.isEmpty()) {
                 historyViewModel.setFireCompleted();
             }
             // onChanged is called when the activity on the foreground
@@ -129,6 +127,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
+
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 // to getPosition of the item and delete it
@@ -141,6 +140,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
 
     }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         MenuInflater menuInflater = getActivity().getMenuInflater();
@@ -155,22 +155,20 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         for (TripClass trip : tripAdapter.getTrips()) {
-            LatLng origins ;
-            LatLng destn ;
+            LatLng origins;
+            LatLng destn;
 
             Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-            try{
-                Address startPoint = geocoder.getFromLocationName(trip.getStartPoint(),1).get(0);
-                origins = new LatLng(startPoint.getLatitude(),startPoint.getLongitude());
+            try {
+                Address startPoint = geocoder.getFromLocationName(trip.getStartPoint(), 1).get(0);
+                origins = new LatLng(startPoint.getLatitude(), startPoint.getLongitude());
 
-                Address endPoint = geocoder.getFromLocationName(trip.getEndPoint(),1).get(0);
-                destn = new LatLng(endPoint.getLatitude(),endPoint.getLongitude());
-            }catch (Exception exception){
+                Address endPoint = geocoder.getFromLocationName(trip.getEndPoint(), 1).get(0);
+                destn = new LatLng(endPoint.getLatitude(), endPoint.getLongitude());
+            } catch (Exception exception) {
                 errorMessage = exception.getMessage();
                 continue;
             }
-
-
 
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origins, 10));
@@ -226,34 +224,6 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         return url;
     }
 
-    private class FetchUrl extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... url) {
-
-            // For storing data from web service
-            String data = "";
-
-            try {
-                // Fetching the data from web service
-                data = downloadUrl(url[0]);
-                Log.d("Background Task data", data.toString());
-            } catch (Exception e) {
-                Log.d("Background Task", e.toString());
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            ParserTask parserTask = new ParserTask();
-            parserTask.execute(result);
-
-        }
-    }
-
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
@@ -275,7 +245,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
             }
 
             data = sb.toString();
-            Log.d("downloadUrl", data.toString());
+            Log.d("downloadUrl", data);
             br.close();
 
         } catch (Exception e) {
@@ -286,6 +256,35 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         }
         return data;
     }
+
+    private class FetchUrl extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+
+            // For storing data from web service
+            String data = "";
+
+            try {
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+                Log.d("Background Task data", data);
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+            parserTask.execute(result);
+
+        }
+    }
+
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
 
         // Parsing the data in non-ui thread
@@ -297,7 +296,7 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
 
             try {
                 jObject = new JSONObject(jsonData[0]);
-                Log.d("ParserTask", jsonData[0].toString());
+                Log.d("ParserTask", jsonData[0]);
                 DataParser parser = new DataParser();
                 Log.d("ParserTask", parser.toString());
 
@@ -316,11 +315,11 @@ public class HistoryFragment extends Fragment implements OnMapReadyCallback {
         // Executes in UI thread, after the parsing process
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            int color = new Random().nextInt(colors.length-1);
+            int color = new Random().nextInt(colors.length - 1);
             ArrayList<LatLng> points;
             PolylineOptions lineOptions = null;
 
-            if(result == null)
+            if (result == null)
                 return;
 
             // Traversing through all the routes

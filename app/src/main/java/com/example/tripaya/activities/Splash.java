@@ -20,8 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class Splash extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-    Animation topAnimantion,bottomAnimation;
-    TextView logo,slogan;
+    Animation topAnimantion, bottomAnimation;
+    TextView logo, slogan;
     ImageView image;
 
     @Override
@@ -33,9 +33,9 @@ public class Splash extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         topAnimantion = AnimationUtils.loadAnimation(this, R.anim.top_animation);
         bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
-        logo=findViewById(R.id.textView);
-        slogan=findViewById(R.id.trips);
-        image=findViewById(R.id.image);
+        logo = findViewById(R.id.textView);
+        slogan = findViewById(R.id.trips);
+        image = findViewById(R.id.image);
         image.setAnimation(topAnimantion);
         logo.setAnimation(bottomAnimation);
         slogan.setAnimation(bottomAnimation);
@@ -55,16 +55,15 @@ public class Splash extends AppCompatActivity {
     }
 
 
-
-    public void startLogin(){
+    public void startLogin() {
         Intent intent = new Intent(Splash.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void startHome(){
-            Intent intent = new Intent(Splash.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+    public void startHome() {
+        Intent intent = new Intent(Splash.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

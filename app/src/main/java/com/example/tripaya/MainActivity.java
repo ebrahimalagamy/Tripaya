@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewsListener() {
-        upcomingSwitch = historySwitch = profileSwitch= 0;
+        upcomingSwitch = historySwitch = profileSwitch = 0;
 
         imageButtonHistory.setOnClickListener(v -> {
             if (historySwitch == 0) {
@@ -88,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
                 // switch to upcoming fragment
                 navController.navigate(R.id.upcomingFragment);
             } else if (upcomingSwitch == 0) {
-                if (InternetConnection.checkConnection(this)){
-                Intent i = new Intent(MainActivity.this, AddTripActivity.class);
-                startActivity(i);}
-                else{
-                    Toast.makeText(MainActivity.this,"plz Check internet connection",Toast.LENGTH_LONG).show();
+                if (InternetConnection.checkConnection(this)) {
+                    Intent i = new Intent(MainActivity.this, AddTripActivity.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(MainActivity.this, "plz Check internet connection", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -168,5 +168,5 @@ public class MainActivity extends AppCompatActivity {
         imageButtonProfile = findViewById(R.id.image_button_profile);
     }
 
-    
+
 }

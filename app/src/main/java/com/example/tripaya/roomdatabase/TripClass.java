@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity(tableName = "trip_table")
@@ -42,82 +43,85 @@ public class TripClass implements Serializable {
         this.tripStatus = tripStatus;
         this.note = note;
     }
+    public Date dateFromStringToDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public Date dateFromStringToDate () {
         try {
+
             return
-            DateFormat.getDateInstance().parse(this.date);
-        }catch (Exception e){
+                    dateFormat.parse(this.date);
+        } catch (Exception e) {
             return new Date();
         }
+    }
+
+
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getTripName() {
         return tripName;
-    }
-
-    public String getStartPoint() {
-        return startPoint;
-    }
-
-    public String getEndPoint() {
-        return endPoint;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public String getTripType() {
-        return tripType;
-    }
-
-    public String getTripStatus() {
-        return tripStatus;
-    }
-
-    public String getNote() {
-        return note;
     }
 
     public void setTripName(String tripName) {
         this.tripName = tripName;
     }
 
+    public String getStartPoint() {
+        return startPoint;
+    }
+
     public void setStartPoint(String startPoint) {
         this.startPoint = startPoint;
+    }
+
+    public String getEndPoint() {
+        return endPoint;
     }
 
     public void setEndPoint(String endPoint) {
         this.endPoint = endPoint;
     }
 
+    public String getDate() {
+        return date;
+    }
+
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public void setTime(String time) {
         this.time = time;
     }
 
+    public String getTripType() {
+        return tripType;
+    }
+
     public void setTripType(String tripType) {
         this.tripType = tripType;
     }
 
+    public String getTripStatus() {
+        return tripStatus;
+    }
+
     public void setTripStatus(String tripStatus) {
         this.tripStatus = tripStatus;
+    }
+
+    public String getNote() {
+        return note;
     }
 
     public void setNote(String note) {

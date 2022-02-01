@@ -9,18 +9,18 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 
 public class FloatingBubbleConfig {
-    private Drawable bubbleIcon;
-    private Drawable removeBubbleIcon;
-    private View expandableView;
-    private int bubbleIconDp;
-    private int removeBubbleIconDp;
-    private float removeBubbleAlpha;
-    private int expandableColor;
-    private int triangleColor;
-    private int gravity;
-    private int paddingDp;
-    private int borderRadiusDp;
-    private boolean physicsEnabled;
+    private final Drawable bubbleIcon;
+    private final Drawable removeBubbleIcon;
+    private final View expandableView;
+    private final int bubbleIconDp;
+    private final int removeBubbleIconDp;
+    private final float removeBubbleAlpha;
+    private final int expandableColor;
+    private final int triangleColor;
+    private final int gravity;
+    private final int paddingDp;
+    private final int borderRadiusDp;
+    private final boolean physicsEnabled;
 
     private FloatingBubbleConfig(Builder builder) {
         bubbleIcon = builder.bubbleIcon;

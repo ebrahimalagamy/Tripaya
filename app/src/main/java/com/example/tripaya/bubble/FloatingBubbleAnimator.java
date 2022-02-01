@@ -10,11 +10,11 @@ public class FloatingBubbleAnimator {
     private static final int ANIMATION_TIME = 100;
     private static final int ANIMATION_STEPS = 5;
 
-    private View bubbleView;
-    private WindowManager.LayoutParams bubbleParams;
-    private WindowManager windowManager;
-    private int sizeX;
-    private int sizeY;
+    private final View bubbleView;
+    private final WindowManager.LayoutParams bubbleParams;
+    private final WindowManager windowManager;
+    private final int sizeX;
+    private final int sizeY;
 
     private FloatingBubbleAnimator(Builder builder) {
         bubbleView = builder.bubbleView;

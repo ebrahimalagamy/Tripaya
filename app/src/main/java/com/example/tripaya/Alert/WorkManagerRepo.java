@@ -2,10 +2,10 @@ package com.example.tripaya.Alert;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.work.Data;
@@ -28,16 +28,19 @@ public class WorkManagerRepo {
         WorkManager.getInstance(context).cancelAllWork();
 
         for (TripClass trip : trips) {
-
+            //if (trip.n)
+            Toast.makeText(context, "Start loop", Toast.LENGTH_SHORT).show();
             Data.Builder builder = new Data.Builder();
-
-            builder.putInt(tripId,trip.getId());
+            builder.putInt(tripId, trip.getId());
             System.out.println("new Date().getTime() - trip.getStartDate().getTime()");
-            Log.e(" Date().getTime()", String.valueOf(trip.dateFromStringToDate().getTime()-new Date().getTime()));
+            Log.i("TAG", "time: " + trip.dateFromStringToDate());
+            Log.i("TAG", "time: " + (trip.dateFromStringToDate().getTime() - new Date().getTime()));
+            Log.i("TAG", "time: " + new Date().getTime());
+            Toast.makeText(context, "Start loop after" + (trip.dateFromStringToDate().getTime() - new Date().getTime()), Toast.LENGTH_LONG).show();
             WorkRequest oneTimeWorkRequest = new OneTimeWorkRequest
                     .Builder(TripWorker.class)
                     .setInitialDelay(
-                            trip.dateFromStringToDate().getTime()-new Date().getTime(),
+                            trip.dateFromStringToDate().getTime() - new Date().getTime(),
                             TimeUnit.MILLISECONDS
                     )
                     .setInputData(builder.build())
@@ -68,7 +71,7 @@ public class WorkManagerRepo {
             System.out.println("trip");
             System.out.println(trip);
 
-            intent.putExtra(tripId,trip)
+            intent.putExtra(tripId, trip)
                     .addFlags(FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
 

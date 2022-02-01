@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ForgotPassword extends Fragment {
 
     EditText resetEmail;
-    Button resetBtn,backBtn;
+    Button resetBtn, backBtn;
     ProgressBar progressBar;
 
     FirebaseAuth mAuth;
@@ -53,7 +53,7 @@ public class ForgotPassword extends Fragment {
         return view;
     }
 
-    private void initComponent(){
+    private void initComponent() {
         resetEmail = view.findViewById(R.id.emailResetId);
         resetBtn = view.findViewById(R.id.resetPwId);
         backBtn = view.findViewById(R.id.backBtnId);
@@ -62,15 +62,15 @@ public class ForgotPassword extends Fragment {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    private void resetPassword(){
+    private void resetPassword() {
         String email = resetEmail.getText().toString().trim();
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             resetEmail.setError("Email is required");
             resetEmail.requestFocus();
             return;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             resetEmail.setError("Please provide valid Email");
             resetEmail.requestFocus();
             return;
@@ -80,11 +80,10 @@ public class ForgotPassword extends Fragment {
         mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "Please check your email to reset your password", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     Toast.makeText(getContext(), "Try again! Something went wrong.", Toast.LENGTH_SHORT).show();
                 }
             }

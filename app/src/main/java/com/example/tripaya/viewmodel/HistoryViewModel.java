@@ -13,8 +13,8 @@ import java.util.List;
 
 public class HistoryViewModel extends AndroidViewModel {
 
-    private TripRepository tripRepository;
-    private LiveData<List<TripClass>> allTripsCompleted;
+    private final TripRepository tripRepository;
+    private final LiveData<List<TripClass>> allTripsCompleted;
 
 
     public HistoryViewModel(@NonNull Application application) {

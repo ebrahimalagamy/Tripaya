@@ -12,10 +12,10 @@ import com.example.tripaya.roomdatabase.TripRepository;
 import java.util.List;
 
 public class AddTripViewModel extends AndroidViewModel {
-    private TripRepository tripRepository;
-    private LiveData<List<TripClass>> allTrips;
+    private final TripRepository tripRepository;
+    private final LiveData<List<TripClass>> allTrips;
 
-    private LiveData<List<TripClass>> allzTrips;
+    private final LiveData<List<TripClass>> allzTrips;
 
 
     public AddTripViewModel(@NonNull Application application) {
@@ -36,10 +36,12 @@ public class AddTripViewModel extends AndroidViewModel {
     public void update(TripClass tripClass) {
         tripRepository.update(tripClass);
     }
-    public LiveData<List<TripClass>> getAllTrips(){
+
+    public LiveData<List<TripClass>> getAllTrips() {
         return allTrips;
     }
-    public LiveData<List<TripClass>> getAllzTrips(){
+
+    public LiveData<List<TripClass>> getAllzTrips() {
         return allzTrips;
     }
 

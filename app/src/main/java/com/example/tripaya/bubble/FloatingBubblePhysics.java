@@ -11,15 +11,15 @@ import com.siddharthks.bubbles.FloatingBubbleConfig;
 
 public class FloatingBubblePhysics extends DefaultFloatingBubbleTouchListener {
 
-    private int sizeX;
-    private int sizeY;
-    private View bubbleView;
-    private WindowManager windowManager;
-    private FloatingBubbleConfig config;
+    private final int sizeX;
+    private final int sizeY;
+    private final View bubbleView;
+    private final WindowManager windowManager;
+    private final FloatingBubbleConfig config;
 
-    private WindowManager.LayoutParams bubbleParams;
-    private FloatingBubbleAnimator animator;
-    private Point[] previous = {null, null};
+    private final WindowManager.LayoutParams bubbleParams;
+    private final FloatingBubbleAnimator animator;
+    private final Point[] previous = {null, null};
 
     private FloatingBubblePhysics(Builder builder) {
         sizeX = builder.sizeX;

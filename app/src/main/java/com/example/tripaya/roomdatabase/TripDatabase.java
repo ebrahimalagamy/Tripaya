@@ -16,8 +16,16 @@ public abstract class TripDatabase extends RoomDatabase {
     // create singleton class for database
     // so that i can't create multiple instance of this class
     private static TripDatabase instance;
-    // to connect roomDatabase with dao
-    public abstract TripDao tripDao();
+    // set initial data in database
+    // onCreate call in first time user install the app in his device and the database created
+    // onOpen call every time user use app
+    private static final Callback callback = new Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            new InitialDBAsyncTask(instance).execute();
+        }
+    };
 
     // singleton
     // synchronized that means only one thread can access this method at a time
@@ -34,20 +42,14 @@ public abstract class TripDatabase extends RoomDatabase {
         }
         return instance;
     }
-    // set initial data in database
-    // onCreate call in first time user install the app in his device and the database created
-    // onOpen call every time user use app
-    private static Callback callback = new Callback(){
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            new InitialDBAsyncTask(instance).execute();
-        }
-    };
+
+    // to connect roomDatabase with dao
+    public abstract TripDao tripDao();
 
     public static class InitialDBAsyncTask extends AsyncTask<Void, Void, Void> {
-        private TripDao tripDao;
-        public InitialDBAsyncTask(TripDatabase database){
+        private final TripDao tripDao;
+
+        public InitialDBAsyncTask(TripDatabase database) {
 
             tripDao = database.tripDao();
         }

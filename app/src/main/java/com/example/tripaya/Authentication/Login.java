@@ -28,7 +28,7 @@ public class Login extends Fragment {
 
     EditText email, password;
     Button logBtn, goDialog;
-    TextView forgotPw, signUp,welcomeMsg;
+    TextView forgotPw, signUp, welcomeMsg;
 
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -36,7 +36,6 @@ public class Login extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     View view;
-
 
 
     @Override
@@ -84,6 +83,7 @@ public class Login extends Fragment {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
+
     private void initComponent() {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -96,35 +96,32 @@ public class Login extends Fragment {
         welcomeMsg = view.findViewById(R.id.welcomeId);
     }
 
-    private void performLogin(){
+    private void performLogin() {
 
         String emailx = email.getText().toString();
         String passwordx = password.getText().toString();
 
-        if (!emailx.matches(emailPattern)){
+        if (!emailx.matches(emailPattern)) {
             email.setError("Enter Correct Email");
-        }
-        else if(passwordx.isEmpty() || passwordx.length()<6){
+        } else if (passwordx.isEmpty() || passwordx.length() < 6) {
             password.setError("Password has to be 6 or more characters");
-        }
-        else {
+        } else {
             progressDialog.setMessage("Logging in...");
             progressDialog.setTitle("Login");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
-            mAuth.signInWithEmailAndPassword(emailx,passwordx).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuth.signInWithEmailAndPassword(emailx, passwordx).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         progressDialog.dismiss();
-                        Intent intent = new Intent(getContext(),MainActivity.class);
+                        Intent intent = new Intent(getContext(), MainActivity.class);
                         startActivity(intent);
                         Toast.makeText(getContext(), "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+                    } else {
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

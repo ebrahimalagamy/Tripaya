@@ -34,6 +34,7 @@ public interface TripDao {
 
     @Query("SELECT * FROM trip_table WHERE tripStatus = 'Upcoming' ")
     LiveData<List<TripClass>> getAllNewTrips();
+
     @Query("SELECT * FROM trip_table WHERE tripStatus = 'Completed' ")
     LiveData<List<TripClass>> getAllCompletedTrips();
 

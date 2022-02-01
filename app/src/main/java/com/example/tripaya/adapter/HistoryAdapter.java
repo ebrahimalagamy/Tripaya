@@ -46,8 +46,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.TripHold
         return new TripHolder(view);
     }
 
-    public List<TripClass> getTrips(){
+    public List<TripClass> getTrips() {
         return trips;
+    }
+
+    // if change configuration we need to load list of trips to recycler view
+    public void setTrips(List<TripClass> trips) {
+        this.trips = trips;
+        // this will update recycler view after any change will change this method
+        // TODO
+        notifyDataSetChanged();
     }
 
     @Override
@@ -108,18 +116,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.TripHold
         });
     }
 
-
     @Override
     public int getItemCount() {
         return trips.size();
-    }
-
-    // if change configuration we need to load list of trips to recycler view
-    public void setTrips(List<TripClass> trips) {
-        this.trips = trips;
-        // this will update recycler view after any change will change this method
-        // TODO
-        notifyDataSetChanged();
     }
 
     // here get the item depend on the position
@@ -127,17 +126,26 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.TripHold
         return trips.get(position);
     }
 
+    public void OnItemClickListener(TripAdapter.OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(TripClass tripClass);
+    }
+
     // holds the views
     class TripHolder extends RecyclerView.ViewHolder {
-        private TextView tripName;
+        private final TextView tripName;
         // TODO later to add this text
-        private TextView tripStartPoint;
-        private TextView tripEndPoint;
-        private TextView tripDate;
-        private TextView tripTime;
-        private TextView tripType;
-        private ImageButton itemOption,imageButton;
-        private TextView tripStatus;
+        private final TextView tripStartPoint;
+        private final TextView tripEndPoint;
+        private final TextView tripDate;
+        private final TextView tripTime;
+        private final TextView tripType;
+        private final ImageButton itemOption;
+        private final ImageButton imageButton;
+        private final TextView tripStatus;
 
         public TripHolder(@NonNull View itemView) {
             super(itemView);
@@ -159,13 +167,5 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.TripHold
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(TripClass tripClass);
-    }
-
-    public void OnItemClickListener(TripAdapter.OnItemClickListener listener) {
-        this.listener = listener;
     }
 }

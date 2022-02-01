@@ -15,26 +15,26 @@ public class FloatingBubbleTouch implements View.OnTouchListener {
     private static final int TOUCH_CLICK_TIME = 250;
     private static final float EXPANSION_FACTOR = 1.25f;
 
-    private int sizeX;
-    private int sizeY;
+    private final int sizeX;
+    private final int sizeY;
 
-    private View bubbleView;
-    private View removeBubbleView;
-    private View expandableView;
-    private WindowManager windowManager;
-    private FloatingBubbleTouchListener listener;
-    private FloatingBubbleTouchListener physics;
-    private int removeBubbleSize;
-    private FloatingBubbleConfig config;
-    private int padding;
-    private int marginBottom;
+    private final View bubbleView;
+    private final View removeBubbleView;
+    private final View expandableView;
+    private final WindowManager windowManager;
+    private final FloatingBubbleTouchListener listener;
+    private final FloatingBubbleTouchListener physics;
+    private final int removeBubbleSize;
+    private final FloatingBubbleConfig config;
+    private final int padding;
+    private final int marginBottom;
 
-    private WindowManager.LayoutParams bubbleParams;
-    private WindowManager.LayoutParams removeBubbleParams;
-    private WindowManager.LayoutParams expandableParams;
-    private int removeBubbleStartSize;
-    private int removeBubbleExpandedSize;
-    private FloatingBubbleAnimator animator;
+    private final WindowManager.LayoutParams bubbleParams;
+    private final WindowManager.LayoutParams removeBubbleParams;
+    private final WindowManager.LayoutParams expandableParams;
+    private final int removeBubbleStartSize;
+    private final int removeBubbleExpandedSize;
+    private final FloatingBubbleAnimator animator;
 
     private long touchStartTime = 0;
     private long lastTouchTime = 0;

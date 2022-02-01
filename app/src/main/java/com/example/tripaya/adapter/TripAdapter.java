@@ -1,12 +1,9 @@
 package com.example.tripaya.adapter;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,49 +14,44 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.tripaya.roomdatabase.TripDao;
-import com.example.tripaya.viewmodel.AddTripViewModel;
-import com.example.tripaya.viewmodel.TripViewModel;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.tripaya.R;
+import com.example.tripaya.roomdatabase.TripClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.siddharthks.bubbles.FloatingBubblePermissions;
 
-
-
-import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
+    OnItemClickListener runnable;
+    FusedLocationProviderClient client;
+    SupportMapFragment supportMapFragment;
     private List<TripClass> trips = new ArrayList<>();
     private OnItemClickListener listener;
     private status status;
     private Context context;
-    OnItemClickListener runnable;
-    FusedLocationProviderClient client;
-    SupportMapFragment supportMapFragment;
-
 
 
     public TripAdapter(Context context) {
         this.context = context;
     }
 
-    public TripAdapter(Context context,OnItemClickListener runnable){
+    public TripAdapter(Context context, OnItemClickListener runnable) {
         this.context = context;
         this.runnable = runnable;
     }
 
     public TripAdapter() {
     }
+
     public void restoreItem(TripClass item, int position) {
         trips.add(position, item);
 
@@ -83,13 +75,21 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         holder.tripName.setText(tripClass.getTripName());
         holder.tripStartPoint.setText(tripClass.getStartPoint());
         holder.tripEndPoint.setText(tripClass.getEndPoint());
-        holder.tripDate.setText(tripClass.getDate());
+
+
+
+            String stdate = DateFormat.getDateInstance(DateFormat.FULL).format(tripClass.dateFromStringToDate());
+
+            holder.tripDate.setText(stdate);
+
+
+
+
         holder.tripTime.setText(tripClass.getTime());
         holder.tripType.setText(tripClass.getTripType());
         holder.tripStatus.setText(tripClass.getTripStatus());
 
         holder.imageButton.setOnClickListener(v -> {
-
 
 
             String sSource = holder.tripStartPoint.getText().toString().trim();
@@ -138,8 +138,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
                         Toast.makeText(v.getContext(), "Started", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menu_item_cancel:
-                         tripClass.setTripStatus("cancel");
-                         status.onStatusChanged(tripClass);
+                        tripClass.setTripStatus("cancel");
+                        status.onStatusChanged(tripClass);
                         // update(tripClass);
                         // holder.tripTime.setText("Cancel");
 
@@ -194,10 +194,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
                /*Intent intent= new Intent(context,SimpleService.class);
                // intent.setPackage("com.example.tripaya.fragments.");
                 context.startService(intent);*/
-            }
-        });
     }
-
 
 
     @Override
@@ -218,19 +215,40 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         return trips.get(position);
     }
 
+    public void onStatesChangeListner(status status) {
+        this.status = status;
+    }
+
+    public void OnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface status {
+        void onStatusChanged(TripClass tripClass);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(TripClass tripClass);
+    }
+
+    public interface TimerStarter {
+        void startTimer();
+    }
+
     // holds the views
     class TripHolder extends RecyclerView.ViewHolder {
-        private TextView tripName;
+        private final TextView tripName;
         // TODO later to add this text
-        private TextView tripStartPoint;
-        private TextView tripEndPoint;
-        private TextView tripDate;
-        private TextView tripTime;
-        private TextView tripType;
-        private ImageButton itemOption, imageButton;
-        private TextView tripStatus;
-        private ImageButton tripNotes;
-        private Button btnStartTrip;
+        private final TextView tripStartPoint;
+        private final TextView tripEndPoint;
+        private final TextView tripDate;
+        private final TextView tripTime;
+        private final TextView tripType;
+        private final ImageButton itemOption;
+        private final ImageButton imageButton;
+        private final TextView tripStatus;
+        private final ImageButton tripNotes;
+        private final Button btnStartTrip;
 
         public TripHolder(@NonNull View itemView) {
             super(itemView);
@@ -254,28 +272,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
                 }
             });
         }
-    }
-
-    public interface status {
-        void onStatusChanged(TripClass tripClass);
-    }
-
-    public void onStatesChangeListner(status status)
-    {
-        this.status = status;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(TripClass tripClass);
-    }
-
-    public void OnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
-
-    public interface TimerStarter {
-        void startTimer();
     }
 
 }

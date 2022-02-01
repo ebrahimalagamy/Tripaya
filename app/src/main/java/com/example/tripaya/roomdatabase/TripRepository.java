@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.tripaya.Alert.WorkManagerRepo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,18 +22,18 @@ import java.util.Set;
 // fetch data room room / we service and liveDate notify viewModel
 
 public class TripRepository {
-    private TripDao tripDao;
-    private LiveData<List<TripClass>> getAllTrips;
-    private LiveData<List<TripClass>> getallzTrips;
-    private LiveData<List<TripClass>> getCompletedTrips;
-    private LiveData<List<TripClass>> getAllTripsCompleted;
-    private List<TripClass> getTrips;
     private final MutableLiveData<List<TripClass>> firebaseTrips;
     public int size = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Trips");
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String Uid = firebaseAuth.getCurrentUser().getUid();
+    private final TripDao tripDao;
+    private final LiveData<List<TripClass>> getAllTrips;
+    private final LiveData<List<TripClass>> getallzTrips;
+    private final LiveData<List<TripClass>> getCompletedTrips;
+    private final LiveData<List<TripClass>> getAllTripsCompleted;
+    private List<TripClass> getTrips;
 
     // in view model will pass application and application is subclass of context
     public TripRepository(Application application) {
@@ -97,7 +96,12 @@ public class TripRepository {
 
     public void deleteAllTrips() {
         new DeleteAllTripAsyncTask(tripDao).execute();
-   //     myRef.child(Uid).child("UserTrips").removeValue();
+        //     myRef.child(Uid).child("UserTrips").removeValue();
+    }
+
+    public void deleteAllTripsall() {
+        new DeleteAllTripAsyncTask(tripDao).execute();
+        myRef.child(Uid).child("UserTrips").removeValue();
     }
 
     // use it to return firebase words;
@@ -166,15 +170,19 @@ public class TripRepository {
     public LiveData<List<TripClass>> getAllTrips() {
         return getAllTrips;
     }
+
     public LiveData<List<TripClass>> getAllCompletedTrips() {
         return getCompletedTrips;
     }
+
     public LiveData<List<TripClass>> getAllzTrips() {
         return getallzTrips;
     }
+
     public LiveData<List<TripClass>> getAllTripsCompleted() {
         return getAllTripsCompleted;
     }
+
     public List<TripClass> getTrips() {
         return getTrips;
     }
@@ -187,7 +195,7 @@ public class TripRepository {
     private static class InsertTripAsyncTask extends AsyncTask<TripClass, Void, Void> {
 
         //need dao to make database operation
-        private TripDao tripDao;
+        private final TripDao tripDao;
 
         public InsertTripAsyncTask(TripDao tripDao) {
             this.tripDao = tripDao;
@@ -205,7 +213,7 @@ public class TripRepository {
     private static class UpdateTripAsyncTask extends AsyncTask<TripClass, Void, Void> {
 
         //need dao to make database operation
-        private TripDao tripDao;
+        private final TripDao tripDao;
 
         public UpdateTripAsyncTask(TripDao tripDao) {
             this.tripDao = tripDao;
@@ -223,7 +231,7 @@ public class TripRepository {
     private static class DeleteTripAsyncTask extends AsyncTask<TripClass, Void, Void> {
 
         //need dao to make database operation
-        private TripDao tripDao;
+        private final TripDao tripDao;
 
         public DeleteTripAsyncTask(TripDao tripDao) {
             this.tripDao = tripDao;
@@ -240,7 +248,7 @@ public class TripRepository {
     private static class DeleteAllTripAsyncTask extends AsyncTask<Void, Void, Void> {
 
         //need dao to make database operation
-        private TripDao tripDao;
+        private final TripDao tripDao;
 
         public DeleteAllTripAsyncTask(TripDao tripDao) {
             this.tripDao = tripDao;
