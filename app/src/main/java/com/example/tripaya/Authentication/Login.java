@@ -42,7 +42,6 @@ public class Login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
-        goDialog = view.findViewById(R.id.goToDialog);
         initComponent();
 
 
@@ -67,13 +66,7 @@ public class Login extends Fragment {
             }
         });
 
-        goDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AlertActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
         return view;
     }

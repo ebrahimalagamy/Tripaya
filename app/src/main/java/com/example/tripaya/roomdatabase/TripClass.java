@@ -1,5 +1,6 @@
 package com.example.tripaya.roomdatabase;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -45,16 +46,13 @@ public class TripClass implements Serializable {
     }
     public Date dateFromStringToDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         try {
-
             return
                     dateFormat.parse(this.date);
         } catch (Exception e) {
             return new Date();
         }
     }
-
 
     public int getId() {
         return id;

@@ -25,9 +25,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
@@ -77,12 +75,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         holder.tripEndPoint.setText(tripClass.getEndPoint());
 
 
+        String stdate = DateFormat.getDateInstance(DateFormat.FULL).format(tripClass.dateFromStringToDate());
 
-            String stdate = DateFormat.getDateInstance(DateFormat.FULL).format(tripClass.dateFromStringToDate());
-
-            holder.tripDate.setText(stdate);
-
-
+        holder.tripDate.setText(stdate);
 
 
         holder.tripTime.setText(tripClass.getTime());

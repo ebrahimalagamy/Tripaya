@@ -32,6 +32,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.example.tripaya.AddTripActivity;
 import com.example.tripaya.InternetConnection;
 import com.example.tripaya.R;
+import com.example.tripaya.SimpleService;
 import com.example.tripaya.adapter.TripAdapter;
 import com.example.tripaya.roomdatabase.TripClass;
 import com.example.tripaya.viewmodel.TripViewModel;
@@ -75,7 +76,7 @@ public class UpcomingFragment extends Fragment {
         setHasOptionsMenu(true);
         initRecycler();
         onScroll();
-        FloatingBubblePermissions.startPermissionRequest(getActivity());
+      //  FloatingBubblePermissions.startPermissionRequest(getActivity());
     }
 
     @Override
@@ -132,11 +133,13 @@ public class UpcomingFragment extends Fragment {
                 // if we want delete the item inside viewModel we need the item not position of the item
                 // we set method return position depend on the position in the adapter
                 tripViewModel.delete(tripAdapter.getTripAt(viewHolder.getAdapterPosition()));
-
+                /*if (pos == 0) {
+                    tripAdapter.clearFocus();
+                }*/
 
 
                 Toast.makeText(getActivity(), "Trip Deleted", Toast.LENGTH_SHORT).show();
-                 snackbar(pos, trip);
+           //     snackbar(pos, trip);
                 tripAdapter.notifyItemRemoved(pos);
 
             }
@@ -272,6 +275,7 @@ public class UpcomingFragment extends Fragment {
         tripClass.setTripStatus("Completed");
         tripViewModel.update(tripClass);
         onTripStart();
+        //getContext().startService(new Intent(getActivity(), SimpleService.class));
     }
 
     public void onTripStart() {

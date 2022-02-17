@@ -14,7 +14,6 @@ import java.util.List;
 public class AddTripViewModel extends AndroidViewModel {
     private final TripRepository tripRepository;
     private final LiveData<List<TripClass>> allTrips;
-
     private final LiveData<List<TripClass>> allzTrips;
 
 

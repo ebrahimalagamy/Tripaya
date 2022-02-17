@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public class WorkManagerRepo {
     public static final String tripId = "TripId";
+    public static final String TAG = "date";
 
     public static void setWorkers(Context context, List<TripClass> trips) {
         WorkManager.getInstance(context).cancelAllWork();
@@ -34,9 +35,15 @@ public class WorkManagerRepo {
             builder.putInt(tripId, trip.getId());
             System.out.println("new Date().getTime() - trip.getStartDate().getTime()");
             Log.i("TAG", "time: " + trip.dateFromStringToDate());
-            Log.i("TAG", "time: " + (trip.dateFromStringToDate().getTime() - new Date().getTime()));
+            Log.i(TAG, "time55: " + (trip.dateFromStringToDate().getTime() - new Date().getTime()));
             Log.i("TAG", "time: " + new Date().getTime());
             Toast.makeText(context, "Start loop after" + (trip.dateFromStringToDate().getTime() - new Date().getTime()), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "trip.dateFromStringToDate().compareTo(new Date())<0 "+(trip.dateFromStringToDate().compareTo(new Date())<0) + (trip.dateFromStringToDate().getTime() - new Date().getTime()), Toast.LENGTH_LONG).show();
+
+            if(trip.dateFromStringToDate().compareTo(new Date())>0){
+                return;
+            }
+
             WorkRequest oneTimeWorkRequest = new OneTimeWorkRequest
                     .Builder(TripWorker.class)
                     .setInitialDelay(

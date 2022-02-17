@@ -7,8 +7,10 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -37,10 +39,13 @@ public class AlertActivity extends AppCompatActivity {
     NotificationManagerCompat notificationManagerCompat;
     Notification notification;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.notification);
+        mediaPlayer.start();
         btnStart = findViewById(R.id.startBtn);
         btnLater = findViewById(R.id.laterBtn);
         btnCancel = findViewById(R.id.cancelBtn);
@@ -71,15 +76,18 @@ public class AlertActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "cancel doalog", Toast.LENGTH_SHORT).show();
-//                tripClass.setTripStatus("Cancel");
-//                tripViewModel.update(tripClass);
+                tripClass.setTripStatus("Cancel");
+            //    tripViewModel.update(tripClass);
 
             }
         });
 
         btnStart.setOnClickListener(v -> {
             String sSource = tripClass.getStartPoint();
+            Log.i("TAG", "onCreate: "+sSource);
             String sDestination = tripClass.getEndPoint();
+            Log.i("TAG", "onCreate: "+sDestination);
+
             if (sSource.equals("") && sDestination.equals("")) {
                 Toast.makeText(v.getContext(), "Please Enter your start and end location", Toast.LENGTH_SHORT).show();
             } else {
@@ -102,7 +110,8 @@ public class AlertActivity extends AppCompatActivity {
 
     }
     public void pushNotification(){
-        Intent intent = new Intent(this, AlertActivity.class);
+
+        Intent intent = new Intent(getApplicationContext(), AlertActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0,intent,PendingIntent.FLAG_ONE_SHOT);

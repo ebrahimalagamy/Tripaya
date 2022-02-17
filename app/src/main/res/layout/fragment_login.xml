@@ -124,14 +124,6 @@
         app:layout_constraintStart_toStartOf="@+id/resetPwId"
         app:layout_constraintTop_toBottomOf="@+id/resetPwId" />
 
-    <Button
-        android:id="@+id/goToDialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
